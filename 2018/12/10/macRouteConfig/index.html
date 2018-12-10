@@ -108,20 +108,31 @@
 
 
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="王力丰的全栈小屋">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="很多单位为了安全，需要使用网线连接内网，此时不能连接外网，无线可以连接外网，却又不能完成部分在内网才能完成的操作。windows下使用双网卡的配置还比较常见，同样移植到mac下，却有许多小问题，本文将详细讲述一下macOS底下应该怎样配置路由表，实现双网卡同时连接内外网。 首先，先查看一下路由表，了解一下基本情况打开终端，输入1netstat -rt 查看路由表的配置情况，我的如下 解释一下这其中">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Macbook利用双网卡同时连内外网">
+<meta property="og:url" content="http://yoursite.com/2018/12/10/macRouteConfig/index.html">
 <meta property="og:site_name" content="王力丰的全栈小屋">
+<meta property="og:description" content="很多单位为了安全，需要使用网线连接内网，此时不能连接外网，无线可以连接外网，却又不能完成部分在内网才能完成的操作。windows下使用双网卡的配置还比较常见，同样移植到mac下，却有许多小问题，本文将详细讲述一下macOS底下应该怎样配置路由表，实现双网卡同时连接内外网。 首先，先查看一下路由表，了解一下基本情况打开终端，输入1netstat -rt 查看路由表的配置情况，我的如下 解释一下这其中">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/images/macRouteConfig/1.jpg">
+<meta property="og:image" content="http://yoursite.com/images/macRouteConfig/2.jpg">
+<meta property="og:image" content="http://yoursite.com/images/macRouteConfig/3.jpg">
+<meta property="og:image" content="http://yoursite.com/images/macRouteConfig/4.jpg">
+<meta property="og:image" content="http://yoursite.com/images/macRouteConfig/5.jpg">
+<meta property="og:image" content="http://yoursite.com/images/macRouteConfig/6.jpg">
+<meta property="og:updated_time" content="2018-12-10T07:36:58.640Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="王力丰的全栈小屋">
+<meta name="twitter:title" content="Macbook利用双网卡同时连内外网">
+<meta name="twitter:description" content="很多单位为了安全，需要使用网线连接内网，此时不能连接外网，无线可以连接外网，却又不能完成部分在内网才能完成的操作。windows下使用双网卡的配置还比较常见，同样移植到mac下，却有许多小问题，本文将详细讲述一下macOS底下应该怎样配置路由表，实现双网卡同时连接内外网。 首先，先查看一下路由表，了解一下基本情况打开终端，输入1netstat -rt 查看路由表的配置情况，我的如下 解释一下这其中">
+<meta name="twitter:image" content="http://yoursite.com/images/macRouteConfig/1.jpg">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/">
+  <link rel="canonical" href="http://yoursite.com/2018/12/10/macRouteConfig/">
 
 
 
@@ -131,7 +142,7 @@
   };
 </script>
 
-  <title>王力丰的全栈小屋</title>
+  <title>Macbook利用双网卡同时连内外网 | 王力丰的全栈小屋</title>
   
 
 
@@ -180,8 +191,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
@@ -222,7 +232,7 @@
         
         
           
-          <li class="menu-item menu-item-home menu-item-active">
+          <li class="menu-item menu-item-home">
 
     
     
@@ -284,9 +294,9 @@
           
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -318,10 +328,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/12/10/macRouteConfig/" class="post-title-link" itemprop="http://yoursite.com/index.html">Macbook利用双网卡同时连内外网</a>
+          <h1 class="post-title" itemprop="name headline">Macbook利用双网卡同时连内外网
               
             
           </h1>
@@ -384,9 +391,7 @@
       
 
       
-        
-          
-            <p>很多单位为了安全，需要使用网线连接内网，此时不能连接外网，无线可以连接外网，却又不能完成部分在内网才能完成的操作。windows下使用双网卡的配置还比较常见，同样移植到mac下，却有许多小问题，本文将详细讲述一下macOS底下应该怎样配置路由表，实现双网卡同时连接内外网。</p>
+        <p>很多单位为了安全，需要使用网线连接内网，此时不能连接外网，无线可以连接外网，却又不能完成部分在内网才能完成的操作。windows下使用双网卡的配置还比较常见，同样移植到mac下，却有许多小问题，本文将详细讲述一下macOS底下应该怎样配置路由表，实现双网卡同时连接内外网。</p>
 <h2 id="首先，先查看一下路由表，了解一下基本情况"><a href="#首先，先查看一下路由表，了解一下基本情况" class="headerlink" title="首先，先查看一下路由表，了解一下基本情况"></a>首先，先查看一下路由表，了解一下基本情况</h2><p>打开终端，输入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -rt</span><br></pre></td></tr></table></figure></p>
 <p>查看路由表的配置情况，我的如下<br><img src="/images/macRouteConfig/1.jpg" alt="avatar"></p>
 <p>解释一下这其中的参数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">1. 第一列：Destination，目标地，意思是：后面的参数代表着，如果前往这个ip的话，应该如何分配网关，网卡等，以及状态信息，都是针对前往这个ip的情况的</span><br><span class="line"></span><br><span class="line">1. 第二列：Gateway，网关，意思是：如果需要前往这个ip，应该从哪个网关过去，这里有两种情况，即有内外网用不同网关的，也有内外网用相同网关的。2/</span><br><span class="line"></span><br><span class="line">1. 第三列：Flags，标志位，和本文的重点无关，暂略</span><br><span class="line"></span><br><span class="line">1. 第四列：Refs，可以简单的理解为重要性，相同的ip，相同的网关，用这个重要性来区分使用哪个网卡</span><br><span class="line"></span><br><span class="line">1. 第五列：Use，使用情况</span><br><span class="line"></span><br><span class="line">1. 第六列：Netif，网卡号，net interface，如图，我有两张网卡，这里的en0，en10分别代表了我的两张网卡，不同的机器名称可能不同，但是意思是一样的，至于那张是无线网卡，需要自己去区分</span><br><span class="line"></span><br><span class="line">1. 第七列：Expire，和本文的重点无关，暂略</span><br></pre></td></tr></table></figure></p>
@@ -407,8 +412,6 @@
 <p><img src="/images/macRouteConfig/6.jpg" alt="avatar"><br>在登录项中加入Automator小程序<br>完成，这样每次启动的时候都会恢复至当前的路由配置了</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>拥有的资源就要良好的利用起来，两块网卡，为什么不能同时连接内外网？搞懂了原理，才能方便生活！</p>
 
-          
-        
       
     </div>
 
@@ -431,12 +434,12 @@
       
 
       
+      
+      
 
       
 
       
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -446,14 +449,15 @@
   </article>
 
 
-    
-  </section>
-
-  
+  </div>
 
 
           </div>
           
+
+  
+
+
 
         </div>
         
@@ -474,8 +478,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -519,6 +532,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#首先，先查看一下路由表，了解一下基本情况"><span class="nav-number">1.</span> <span class="nav-text">首先，先查看一下路由表，了解一下基本情况</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#然后明确一下我们应该如何修改"><span class="nav-number">2.</span> <span class="nav-text">然后明确一下我们应该如何修改</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开始修改"><span class="nav-number">3.</span> <span class="nav-text">开始修改</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一步：修改无线网卡的优先级，使之大于有线网卡"><span class="nav-number">3.1.</span> <span class="nav-text">第一步：修改无线网卡的优先级，使之大于有线网卡</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二步：修改连接内网使用的网卡"><span class="nav-number">3.2.</span> <span class="nav-text">第二步：修改连接内网使用的网卡</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、公司里内外网分两个路由："><span class="nav-number">3.2.1.</span> <span class="nav-text">一、公司里内外网分两个路由：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、公司里内外网是一个路由："><span class="nav-number">3.2.2.</span> <span class="nav-text">二、公司里内外网是一个路由：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第三步：如何自动在每次启动的时候都切换到当前的路由表"><span class="nav-number">3.3.</span> <span class="nav-text">第三步：如何自动在每次启动的时候都切换到当前的路由表</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -656,6 +685,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.6.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.6.0"></script>
+
+
 
   
 
