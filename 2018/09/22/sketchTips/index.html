@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.6.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.6.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.6.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.6.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="钢笔工具绘制矢量图形时，你可以按住 shift 键再画之后的点，Sketch会自动帮你对齐到前一点的45度角方向，这在你绘制直线时会非常方便。如果你是在两点之间添加新的锚点时按住 shift 键，你便会得到两点间的锚点。如果你按住 command 键，单击两点间的线条，Sketch则会帮你在线条的正中间添加锚点。 矢量图工具绘制如果你想改变图形的起始点，你需要按住空格键，这样你将会修改起始点，而不">
+<meta name="keywords" content="Mac,Sketch">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【转载】80%的人不知道的Sketch小技巧">
+<meta property="og:url" content="http://yoursite.com/2018/09/22/sketchTips/index.html">
+<meta property="og:site_name" content="王力丰的全栈小屋">
+<meta property="og:description" content="钢笔工具绘制矢量图形时，你可以按住 shift 键再画之后的点，Sketch会自动帮你对齐到前一点的45度角方向，这在你绘制直线时会非常方便。如果你是在两点之间添加新的锚点时按住 shift 键，你便会得到两点间的锚点。如果你按住 command 键，单击两点间的线条，Sketch则会帮你在线条的正中间添加锚点。 矢量图工具绘制如果你想改变图形的起始点，你需要按住空格键，这样你将会修改起始点，而不">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-12-11T06:28:53.048Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【转载】80%的人不知道的Sketch小技巧">
+<meta name="twitter:description" content="钢笔工具绘制矢量图形时，你可以按住 shift 键再画之后的点，Sketch会自动帮你对齐到前一点的45度角方向，这在你绘制直线时会非常方便。如果你是在两点之间添加新的锚点时按住 shift 键，你便会得到两点间的锚点。如果你按住 command 键，单击两点间的线条，Sketch则会帮你在线条的正中间添加锚点。 矢量图工具绘制如果你想改变图形的起始点，你需要按住空格键，这样你将会修改起始点，而不">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/09/22/sketchTips/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>【转载】80%的人不知道的Sketch小技巧 | 王力丰的全栈小屋</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王力丰的全栈小屋</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">这，这就触及到我的知识盲区了</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/22/sketchTips/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lifeng Wang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王力丰的全栈小屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【转载】80%的人不知道的Sketch小技巧
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-09-22 14:25:42" itemprop="dateCreated datePublished" datetime="2018-09-22T14:25:42+08:00">2018-09-22</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-12-11 14:28:53" itemprop="dateModified" datetime="2018-12-11T14:28:53+08:00">2018-12-11</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/设计/" itemprop="url" rel="index"><span itemprop="name">设计</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="钢笔工具"><a href="#钢笔工具" class="headerlink" title="钢笔工具"></a>钢笔工具</h2><p>绘制矢量图形时，你可以按住 shift 键再画之后的点，Sketch会自动帮你对齐到前一点的45度角方向，这在你绘制直线时会非常方便。如果你是在两点之间添加新的锚点时按住 shift 键，你便会得到两点间的锚点。<br>如果你按住 command 键，单击两点间的线条，Sketch则会帮你在线条的正中间添加锚点。</p>
+<h2 id="矢量图工具"><a href="#矢量图工具" class="headerlink" title="矢量图工具"></a>矢量图工具</h2><h3 id="绘制"><a href="#绘制" class="headerlink" title="绘制"></a>绘制</h3><p>如果你想改变图形的起始点，你需要按住空格键，这样你将会修改起始点，而不是图形的大小</p>
+<h3 id="大小"><a href="#大小" class="headerlink" title="大小"></a>大小</h3><p>我们有一个很特别的输入框，鼠标悬停上去时你会看见上下两个小剪头出现在文本区域右边，你可以单击他们来增减图形的大小。如果你按住 shift 则会以 10 为单位变化。如果你按住 option 键，则会以0.1 为单位变化。<br>一旦你开始直接编辑输入框，上下剪头就会消失，但这个功能依然可用，你可以用键盘上的上下方向键配合 shift 或 option 键来完成。</p>
+<h3 id="渐变"><a href="#渐变" class="headerlink" title="渐变"></a>渐变</h3><p>你可以按下1-9的数字键来在渐变线的 10%-90% 的位置添加新的节点，所以如果按下 5，就能将节点添加在正中间。<br>如果你想在两个节点的正中间添加，则按下 = 键即可。<br>还可以使用 tab 键快速的在不同节点中切换，用方向键（也可以同时按住 shift 键）移动节点。</p>
+<h3 id="背景模糊"><a href="#背景模糊" class="headerlink" title="背景模糊"></a>背景模糊</h3><p>背景模糊是在苹果发布 iOS 7之后添加的功能，需要确认有一个半透明的图层在表面应用了背景模糊，这样下层的内容才会出现模糊效果。<br>需要注意的是，模糊是一种非常消耗资源的渲染效果，图层越大，模糊就需要占用更多的内存空间和处理器能力。尽量少使用模糊，如果你一定要在背景模糊和普通模糊中选择，那么选择普通模糊吧。</p>
+<h3 id="分离路径"><a href="#分离路径" class="headerlink" title="分离路径"></a>分离路径</h3><p>所有的复制图形都会被视为原图形的子路径，如果你想让他们成为完全独立的图层，你只需从菜单栏进入 编辑 &gt; 路径 &gt; 分离 (Layer &gt; Paths &gt; Split)即可。</p>
+<h2 id="文字"><a href="#文字" class="headerlink" title="文字"></a>文字</h2><h3 id="转曲"><a href="#转曲" class="headerlink" title="转曲"></a>转曲</h3><p>不要将很长一段文字都转化为矢量图形，这会大大减缓文件的运行速度。<br>将一小段文字转化为大量包含布尔运算的子路径是非常非常消耗系统内存的，如果你不得不转换一段文字，那么你可以先将一段文字尽可能分成多个短文本，然后再一个个的转化为矢量。<br>不过既然你现在可以直接在文本上运用渐变等效果，大多数时候你都不会需要将文本转化为轮廓。</p>
+<h3 id="路径文字"><a href="#路径文字" class="headerlink" title="路径文字"></a>路径文字</h3><p>当你进入顶端的编辑菜单 &gt; 文本路径 (Edit &gt; Text on Path)，Sketch会帮你把文本图层贴合的放在它下一层的矢量图形上面。值得注意的是，两者的顺序必须是矢量图形在文本图层的下面，才能得到这样的效果。</p>
+<h3 id="抗锯齿"><a href="#抗锯齿" class="headerlink" title="抗锯齿"></a>抗锯齿</h3><p>顺利实现子像素抗锯齿效果，文本必需出现在一个不透明的（有色的）背景上，因为系统需要知道最终的颜色对比结果是什么样的。这一点与图层混合模式是相冲突的。要实现图层混合模式，Sketch 需要在一个透明背景上渲染所有的图层，这样这些图层才能像你所期望的那样混合在一起，最终结果再渲染回 Sketch 的白色画布上。<br>如果没有一个不透明背景我们就不能渲染抗锯齿的文字，但是有了不透明的背景我们又不能渲染图层的混合模式了。这就意味着，一旦你的画布中出现了一个有混合模式的图层，Sketch 就不得不运用透明背景的算法，而无法给文字实现子像素抗锯齿效果了。</p>
+<h2 id="图片"><a href="#图片" class="headerlink" title="图片"></a>图片</h2><h3 id="色彩校正"><a href="#色彩校正" class="headerlink" title="色彩校正"></a>色彩校正</h3><p>如果你想微调一张现有图片的颜色，那可以使用检查器中的色彩校正面板来实现，在这，你可以改变图片的饱和度，亮度和对比色。<br>需要注意的是，这一个不破坏原图的操作，所以你稍后还可以再次更改这些参数。</p>
+<h3 id="九宫格"><a href="#九宫格" class="headerlink" title="九宫格"></a>九宫格</h3><p>正常情况下，你缩放一个位图时，他们会对称的向各个方向变化。但有时这并不是你想要的，比如说你在做一个网页设计，你也许会想要一个 safari 里的白色背景，随着网页内容变多而变长。<br>我们特意增加了针对图片的九宫格缩放来解决这个问题。进入图层 &gt; 转化为九宫格图片 （Layer &gt; Convert to Nine-slice Image），你会发现图片被划分为了9个区域。你可以单击拖拽四个中心点的任一个来调整9个区域。</p>
+<h2 id="蒙板"><a href="#蒙板" class="headerlink" title="蒙板"></a>蒙板</h2><h3 id="普通蒙板"><a href="#普通蒙板" class="headerlink" title="普通蒙板"></a>普通蒙板</h3><p>Sketch里的蒙版可以让你有选择性的显示出图层的一部分。比如说在一个图片上圆形蒙版，那么这张图片就只会显示出圆形内部的内容。<br>所有的图形都可以变成蒙版，你只需要先选中图形，然后进入图层 &gt; 使用图形蒙版(Layer &gt; Use as Mask), 所有在这个蒙版上面的图形都会被剪切成蒙版的内容显示出来。</p>
+<h3 id="限制蒙版"><a href="#限制蒙版" class="headerlink" title="限制蒙版"></a>限制蒙版</h3><p>如果你不想接下来所有的图层都被蒙版剪切，那么你可以将蒙版和想要被剪切的图层单独编组，一次来限制蒙版的使用情景。一旦蒙版被编组，其他一切在组外的图层就都不会被蒙版剪切了。<br>在无法编组的情况下，你还可以通过以下方式限制蒙版：<br>・选中一个你想从剪切蒙版中释放出来的图层<br>・进入图层 &gt; 忽略底层蒙版 (Layer &gt; Ignore Underlying Mask)<br>这一层图层和它以上的所有图层就都不会被蒙版剪切了。当你调整图层顺序的时候则需要格外注意，个别图层可能会意外的被蒙版剪切。</p>
+<h3 id="ALPHA-蒙版"><a href="#ALPHA-蒙版" class="headerlink" title="ALPHA 蒙版"></a>ALPHA 蒙版</h3><p>默认情况下，一个蒙版会显示出所在区域的图片，隐藏其他的地方。另一种使用蒙版的方式是通过 ALPHA 蒙版建立渐变区域，来具体选择图片的各部分是否可见<br>使用这个方法你可以先选中蒙版，选择 图层 (Layer) &gt; 蒙版模式 (Mask Mode) &gt; ALPHA 蒙版 (ALPHA Mask) 来实现。</p>
+<h2 id="图层"><a href="#图层" class="headerlink" title="图层"></a>图层</h2><h3 id="复制"><a href="#复制" class="headerlink" title="复制"></a>复制</h3><p>command + D，Sketch则会重复你刚才的操作，复制出一个一样的图层。</p>
+<h3 id="编组选择"><a href="#编组选择" class="headerlink" title="编组选择"></a>编组选择</h3><p>想从深深的编组层级中直接选中某一具体图层，你可以按住 command 键，来直接选择埋在组里的图层，无需不停的双击以进入更深的层级，这将省去你不少的时间。同时按住 shift 键，则能选择多个图层。</p>
+<h3 id="叠加选择"><a href="#叠加选择" class="headerlink" title="叠加选择"></a>叠加选择</h3><p>右击鼠标，从菜单中选择 “选择图层”（Pick Layer），便会显示出鼠标底下的所有图层列表。<br>按住 option 键，Sketch 会选中第二层图层，而不是最上层的。如果某个区域有多个图层重叠，而你想选择第三层，那么还是需要用到上面说的右击鼠标的方法来选择了。</p>
+<h3 id="鼠标框选"><a href="#鼠标框选" class="headerlink" title="鼠标框选"></a>鼠标框选</h3><p>如果你同时按住 option 键，则只会选中完全被包括在所画选取内的图层</p>
+<h3 id="改变大小"><a href="#改变大小" class="headerlink" title="改变大小"></a>改变大小</h3><p>可以直接使用键盘调整图层大小。按住 command 键和方向键来操作。⌘→会将图层宽度增加 1px，⌘←则会将宽度减少 1px。同样的，⌘↓ 和 ⌘↑则分别将长度增加和减少 1px。如果你同时按住 shift 键，每一次更改的数值将会变成 10 px。<br>改变一个图层的大小时，它的式样元素并不会随之变大变小：一个 10x10的图形上 1px的描边在这个图形被拉伸至 50x50的时候，将仍保持 1px的描边。想要更改图层大小的同时一起更改式样，那就使用编辑菜单当中的缩放工具吧。</p>
+<h3 id="图层扁平化"><a href="#图层扁平化" class="headerlink" title="图层扁平化"></a>图层扁平化</h3><p>当你使用扁平化功能（ Flattening），Sketch 会试着将一个图形里的多个子路径呈现为一个路径——也就是将层级结构变得更扁平。但是有些图形是无法扁平为一个路径的，比如说一个环状图形，将只能被呈现为两个路径：一个是外圈路径，一个是内圈路径<br>当 Sketch 不能完成扁平化的命令时，会出现一个小警告，如果你继续坚持，那有的子路径可能被替换，也许比之前少，也许和之前一样多。<br>也许在你之前使用的绘图应用中，你每次添加布尔运算后到要让图层扁平一次，但在 Sketch 当中大可不必这么做，你可以尽情添加无数曾布尔运算，而无需使用扁平命令。</p>
+<h2 id="多页面操作"><a href="#多页面操作" class="headerlink" title="多页面操作"></a>多页面操作</h2><p>你可以用无限精准的分辨率无关模式来查看画布，或者打开像素模式来查看每一个像素导出成JPG或者PNG文件后的样子。值得注意的是，有些效果——比如模糊——会自动将画布的一部分以像素模式显示，因为模糊本身就是一个基于像素的效果。值得注意的是，当模糊半径被设置为0的时候，文本图层的内阴影才是最好看的。扩散并不适用于文本图层。</p>
+<h2 id="放大缩小视图"><a href="#放大缩小视图" class="headerlink" title="放大缩小视图"></a>放大缩小视图</h2><p>可以按住 command 键并滚动鼠标滚轮来放大查看。<br>还能用 Z 键来快速放大某一特定区域，单击画布任一点拖拽出矩形区域即可。</p>
+<h2 id="切片"><a href="#切片" class="headerlink" title="切片"></a>切片</h2><p>如果你在文件名中加入了一个斜杠 (一个”/“)，那么Sketch就会自动新建一个文件夹，并把这个文件放入其中。举个例子，如果你将切片命名为 foo/bar.png ，那么Sketch会先帮你创建一个叫做 foo 的文件夹，然后在里面创建一个叫 bar.png 的图片。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Mac/" rel="tag"># Mac</a>
+          
+            <a href="/tags/Sketch/" rel="tag"># Sketch</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/12/methodSwizzlingIntroduce/" rel="next" title="Method Swizzling 原理">
+                <i class="fa fa-chevron-left"></i> Method Swizzling 原理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/10/macRouteConfig/" rel="prev" title="Macbook利用双网卡同时连内外网">
+                Macbook利用双网卡同时连内外网 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Lifeng Wang">
+            
+              <p class="site-author-name" itemprop="name">Lifeng Wang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#钢笔工具"><span class="nav-number">1.</span> <span class="nav-text">钢笔工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#矢量图工具"><span class="nav-number">2.</span> <span class="nav-text">矢量图工具</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#绘制"><span class="nav-number">2.1.</span> <span class="nav-text">绘制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#大小"><span class="nav-number">2.2.</span> <span class="nav-text">大小</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#渐变"><span class="nav-number">2.3.</span> <span class="nav-text">渐变</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#背景模糊"><span class="nav-number">2.4.</span> <span class="nav-text">背景模糊</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分离路径"><span class="nav-number">2.5.</span> <span class="nav-text">分离路径</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文字"><span class="nav-number">3.</span> <span class="nav-text">文字</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#转曲"><span class="nav-number">3.1.</span> <span class="nav-text">转曲</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#路径文字"><span class="nav-number">3.2.</span> <span class="nav-text">路径文字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#抗锯齿"><span class="nav-number">3.3.</span> <span class="nav-text">抗锯齿</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图片"><span class="nav-number">4.</span> <span class="nav-text">图片</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#色彩校正"><span class="nav-number">4.1.</span> <span class="nav-text">色彩校正</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#九宫格"><span class="nav-number">4.2.</span> <span class="nav-text">九宫格</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#蒙板"><span class="nav-number">5.</span> <span class="nav-text">蒙板</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#普通蒙板"><span class="nav-number">5.1.</span> <span class="nav-text">普通蒙板</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#限制蒙版"><span class="nav-number">5.2.</span> <span class="nav-text">限制蒙版</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ALPHA-蒙版"><span class="nav-number">5.3.</span> <span class="nav-text">ALPHA 蒙版</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图层"><span class="nav-number">6.</span> <span class="nav-text">图层</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#复制"><span class="nav-number">6.1.</span> <span class="nav-text">复制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编组选择"><span class="nav-number">6.2.</span> <span class="nav-text">编组选择</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#叠加选择"><span class="nav-number">6.3.</span> <span class="nav-text">叠加选择</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#鼠标框选"><span class="nav-number">6.4.</span> <span class="nav-text">鼠标框选</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#改变大小"><span class="nav-number">6.5.</span> <span class="nav-text">改变大小</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图层扁平化"><span class="nav-number">6.6.</span> <span class="nav-text">图层扁平化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多页面操作"><span class="nav-number">7.</span> <span class="nav-text">多页面操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#放大缩小视图"><span class="nav-number">8.</span> <span class="nav-text">放大缩小视图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#切片"><span class="nav-number">9.</span> <span class="nav-text">切片</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lifeng Wang</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+      
+  
+  <script type="text/javascript" color="0,0,255" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script id="ribbon" type="text/javascript" size="300" alpha="0.6" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.6.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.6.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.6.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.6.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.6.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.6.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.6.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

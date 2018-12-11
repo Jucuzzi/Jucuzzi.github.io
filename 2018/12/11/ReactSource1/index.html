@@ -1,0 +1,1375 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.6.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.6.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.6.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.6.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="当我们能够熟练运用React进行前端开发时，不免会对React内部机制产生浓厚的兴趣。组件是什么？是真的DOM吗？生命周期函数的执行依据又是什么呢？ 本篇，我们先来研究React组件的实现与挂载。 组件是什么首先编写一个最简单的组件：1234567891011121314import React, &amp;#123; Component &amp;#125; from &apos;react&apos;;class A exten">
+<meta name="keywords" content="React">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React源码解析(一):组件的实现与挂载">
+<meta property="og:url" content="http://yoursite.com/2018/12/11/ReactSource1/index.html">
+<meta property="og:site_name" content="王力丰的全栈小屋">
+<meta property="og:description" content="当我们能够熟练运用React进行前端开发时，不免会对React内部机制产生浓厚的兴趣。组件是什么？是真的DOM吗？生命周期函数的执行依据又是什么呢？ 本篇，我们先来研究React组件的实现与挂载。 组件是什么首先编写一个最简单的组件：1234567891011121314import React, &amp;#123; Component &amp;#125; from &apos;react&apos;;class A exten">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/images/ReactSource1/1.png">
+<meta property="og:image" content="http://yoursite.com/images/ReactSource1/2.png">
+<meta property="og:image" content="http://yoursite.com/images/ReactSource1/3.png">
+<meta property="og:image" content="http://yoursite.com/images/ReactSource1/4.png">
+<meta property="og:image" content="http://yoursite.com/images/ReactSource1/5.png">
+<meta property="og:updated_time" content="2018-12-11T08:42:26.918Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="React源码解析(一):组件的实现与挂载">
+<meta name="twitter:description" content="当我们能够熟练运用React进行前端开发时，不免会对React内部机制产生浓厚的兴趣。组件是什么？是真的DOM吗？生命周期函数的执行依据又是什么呢？ 本篇，我们先来研究React组件的实现与挂载。 组件是什么首先编写一个最简单的组件：1234567891011121314import React, &amp;#123; Component &amp;#125; from &apos;react&apos;;class A exten">
+<meta name="twitter:image" content="http://yoursite.com/images/ReactSource1/1.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/12/11/ReactSource1/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>React源码解析(一):组件的实现与挂载 | 王力丰的全栈小屋</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王力丰的全栈小屋</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">这，这就触及到我的知识盲区了</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/11/ReactSource1/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lifeng Wang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王力丰的全栈小屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">React源码解析(一):组件的实现与挂载
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-11 14:34:30 / 修改时间：16:42:26" itemprop="dateCreated datePublished" datetime="2018-12-11T14:34:30+08:00">2018-12-11</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/前端/" itemprop="url" rel="index"><span itemprop="name">前端</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>当我们能够熟练运用React进行前端开发时，不免会对React内部机制产生浓厚的兴趣。组件是什么？是真的DOM吗？生命周期函数的执行依据又是什么呢？</p>
+<p>本篇，我们先来研究React组件的实现与挂载。</p>
+<h2 id="组件是什么"><a href="#组件是什么" class="headerlink" title="组件是什么"></a>组件是什么</h2><p>首先编写一个最简单的组件：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; Component &#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(props)&#123;</span><br><span class="line">        <span class="keyword">super</span>(props);</span><br><span class="line">        <span class="keyword">this</span>.state = &#123;&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    componentDidMount()&#123;&#125;</span><br><span class="line">    </span><br><span class="line">    render()&#123;</span><br><span class="line">        <span class="keyword">return</span> &lt;div&gt;这是A组件&lt;/div&gt;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上述代码写完后，我们就得到了<code>&lt;A /&gt;</code>这个组件，那么我们接下来先弄清楚<code>&lt;A /&gt;</code>是什么。用console.log打印出来：</p>
+<p><img src="/images/ReactSource1/1.png" alt="avatar"><br>可以看出，<code>&lt;A /&gt;</code>其实是js对象而不是真实的DOM，注意此时<code>props</code>是空对象。接下来，我们打印<code>&lt;A&gt;&lt;div&gt;这是A组件&lt;/div&gt;&lt;/A&gt;</code>，看看控制台会输出什么：</p>
+<p><img src="/images/ReactSource1/2.png" alt="avatar"><br>我们看到，<code>props</code>发生了变化，由于<code>&lt;A /&gt;</code>组件中嵌套了一个<code>div</code>，<code>div</code>中又嵌套了文字，所以在描述<code>&lt;A /&gt;</code>对象的<code>props</code>中增加了<code>children</code>属性，其值为描述<code>div</code>的js对象。同理，如果我们进行多层的组件嵌套，其实就是在父对象的<code>props</code>中增加<code>children</code>字段及对应的描述值，也就是js对象的多层嵌套。</p>
+<p>以上描述是基于ES6的React开发模式，其实在ES5中通过<code>React.createClass({})</code>方法创建的组件，与ES6中是完全一样的，同样可以通过控制台打印输出组件结果进行验证，此处不再赘述。</p>
+<p>那么形如HTML标签实际上却是对象的<code>React</code>组件是如何构成的呢？</p>
+<p>因为我们的组件声明基于<code>React</code>和<code>Component</code>，所以首先我们打开<code>React.js</code>,可以看到如下代码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var React = &#123;</span><br><span class="line">    Component: ReactComponent,</span><br><span class="line">    createElement: createElement,</span><br><span class="line">    createClass: ReactClass.createClass,</span><br><span class="line">&#125;;</span><br><span class="line">module.exports = React;</span><br></pre></td></tr></table></figure>
+<p>我们在<code>import React from &#39;react&#39;</code>时，引入的就是源码中提供的React对象。在<code>extends Component</code>时，继承了<code>Component</code>类。这里需要说明两点：</p>
+<p>源码中明明使用的<code>module.exports</code>而不是<code>export default</code>，为什么还能够成功引入呢？其实这是babel解析器的功劳。它令<code>(ES6)import === (CommonJS)require</code>。而在typescript中，需要严格的<code>export default</code>声明，故在typescript下就不能使用<code>import React from &#39;react&#39;</code>了，有兴趣的读者可以尝试一下。<br>我们可以写<code>extends Component</code>也可以写<code>extends React.Component</code>，这两者是否存在区别呢？答案是否定的。因为<code>Component</code>是<code>React.Component</code>的引用。也就是说<code>Component === React.Component</code>，在实际项目中写哪个都可以。</p>
+<p>沿着<code>ReactComponent</code>的线索，我们打开<code>node_modules/react/lib/ReactComponent.js</code>:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ReactComponent</span>(<span class="params">porps, context, updater</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.props = props;</span><br><span class="line">    <span class="keyword">this</span>.context = context;</span><br><span class="line">    <span class="keyword">this</span>.refs = emptyObject;</span><br><span class="line">    <span class="keyword">this</span>.updater = updater || ReactNoopUpdateQueue</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ReactComponent.prototype.setState = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">ReactComponent.prototype.forceUpdate = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = ReactComponent;</span><br></pre></td></tr></table></figure>
+<p>上述代码是再熟悉不过的构造函数，想必大家已经滚瓜烂熟了。同时我们也注意到<code>setState</code>是定义在原型上具有两个参数的方法，具体原理我们将在<code>React</code>更新机制的篇章讲解。</p>
+<p>上述代码表明，我们在最开始声明的组件A，其实是继承<code>ReactComponent</code>类的子类，它的原型具有<code>setState</code>等方法。这样组件A已经有了最基本的雏形。</p>
+<p>小结<br><img src="/images/ReactSource1/3.png" alt="avatar"></p>
+<h2 id="组件的初始化"><a href="#组件的初始化" class="headerlink" title="组件的初始化"></a>组件的初始化</h2><p>声明A后，我们可以在其内部自定义方法，也可以使用生命周期的方法，如<code>ComponentDidMount</code>等等，这些和我们在写”类”的时候是完全一样的。唯一不同的是组件类必须拥有<code>render</code>方法输出类似<code>&lt;div&gt;这是A组件&lt;/div&gt;</code>的结构并挂载到真实DOM上，才能触发组件的生命周期并成为DOM树的一部分。首先我们观察ES6的”类”是如何初始化一个react组件的。</p>
+<p>将最初的示例代码放入babel中：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> A = <span class="function"><span class="keyword">function</span>(<span class="params">_Component</span>)</span>&#123;</span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    _inherits(A,_component);</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">A</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        _classCallCheck(<span class="keyword">this</span>,A);</span><br><span class="line">        <span class="keyword">var</span> _this = _possibleConstructorReturn(<span class="keyword">this</span>,_Component.call(<span class="keyword">this</span>));</span><br><span class="line">        _this.state = &#123;&#125;;</span><br><span class="line">        <span class="keyword">return</span> _this;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    A.prototype.render = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> React.createElement(<span class="string">'div'</span>,<span class="literal">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> A;</span><br><span class="line">&#125;(Component);</span><br></pre></td></tr></table></figure>
+<p>其中<code>_Component</code>是对象<code>ReactComponent</code>，<code>_inherit</code>方法是<code>extends</code>关键字的函数实现，这些都是ES6相关内容，我们暂时不管。关键在于我们发现<code>render</code>方法实际上是调用了<code>React.createElement</code>方法(实际是ReactElement方法)。然后我们打开<code>ReactElement.js</code>:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ReactElement = <span class="function"><span class="keyword">function</span>(<span class="params">type, key, ref, self, source, owner, props</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> element = &#123;</span><br><span class="line">        $$<span class="keyword">typeof</span>: REACT_ELEMENT_TYPE,</span><br><span class="line"></span><br><span class="line">        type: type,</span><br><span class="line">        key: key,</span><br><span class="line">        ref: ref,</span><br><span class="line">        props: props,</span><br><span class="line"></span><br><span class="line">        _owner: owner</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">return</span> element;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:center">功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>$$typeof</code></td>
+<td style="text-align:center">组件的标识信息</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>key</code></td>
+<td style="text-align:center">DOM结构标识，提升update性能</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>props</code></td>
+<td style="text-align:center">子结构相关信息(有则增加<code>children</code>字段/没有为空)和组件属性(如<code>style</code>)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>ref</code></td>
+<td style="text-align:center">真实DOM的引用</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>_owner</code></td>
+<td style="text-align:center"><code>_owner</code> === <code>ReactCurrentOwner.current(ReactCurrentOwner.js)</code>,值为创建当前组件的对象，默认值为null。</td>
+</tr>
+</tbody>
+</table>
+<p>看完上述内容相信大家已经对React组件的实质有了一定的了解。通过执行<code>React.createElement</code>创建出的<code>ReactElement</code>类型的js对象，就是”React组件”，这与控制台打印出的结果完全对应。总结来说，如果我们通过<code>class</code>关键字声明React组件,那么他们在解析成真实DOM之前一直是<code>ReactElement</code>类型的js对象。</p>
+<p>小结</p>
+<p>对之前的思维导图进行补充：<br><img src="/images/ReactSource1/4.png" alt="avatar"></p>
+<h2 id="组件的挂载"><a href="#组件的挂载" class="headerlink" title="组件的挂载"></a>组件的挂载</h2><p>我们知道可以通过<code>ReactDOM.render(component,mountNode)</code>的形式对自定义组件/原生DOM/字符串进行挂载，</p>
+<p>那么挂载的过程又是如何实现的呢？(我们去除中间的一些逻辑判断)</p>
+<p><code>ReactDOM.render</code>实际调用了内部的<code>ReactMount.render</code>，进而执行<code>ReactMount._renderSubtreeIntoContainer</code>。从字面意思上就可以看出是将”子DOM”插入容器的逻辑，我们看下源码实现:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">_renderSubtreeIntoContainer: function (parentComponent, nextElement, container, callback) &#123;</span><br><span class="line"></span><br><span class="line">    var nextWrappedElement = React.createElement(TopLevelWrapper, &#123;</span><br><span class="line">        child: nextElement</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    var nextContext;</span><br><span class="line">    if (parentComponent) &#123;</span><br><span class="line">        var parentInst = ReactInstanceMap.get(parentComponent);</span><br><span class="line">        nextContext = parentInst._processChildContext(parentInst._context);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        nextContext = emptyObject;  </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    var prevComponent = getTopLevelWrapperInContainer(container);</span><br><span class="line"></span><br><span class="line">    if (prevComponent) &#123;</span><br><span class="line">        var prevWrappedElement = prevComponent._currentElement;</span><br><span class="line">        var prevElement = prevWrappedElement.props.child;</span><br><span class="line">        //组件更新在生命周期部分进行解析</span><br><span class="line">        if (shouldUpdateReactComponent(prevElement, nextElement)) &#123;</span><br><span class="line">            var publicInst = prevComponent._renderedComponent.getPublicInstance();</span><br><span class="line">            var updatedCallback = callback &amp;&amp; function () &#123;</span><br><span class="line">                callback.call(publicInst);</span><br><span class="line">            &#125;;</span><br><span class="line">            //更新组件</span><br><span class="line">            ReactMount._updateRootComponent(prevComponent, nextWrappedElement, nextContext, container, updatedCallback);</span><br><span class="line">            return publicInst;  </span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            //卸载</span><br><span class="line">            ReactMount.unmountComponentAtNode(container);   </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    var reactRootElement = getReactRootElementInContainer(container);</span><br><span class="line">    var containerHasReactMarkup = reactRootElement &amp;&amp; !!internalGetID(reactRootElement);</span><br><span class="line">    var containerHasNonRootReactChild = hasNonRootReactChild(container);</span><br><span class="line"></span><br><span class="line">    if (process.env.NODE_ENV !== &apos;production&apos;) &#123;</span><br><span class="line">        process.env.NODE_ENV !== &apos;production&apos; ? warning(!containerHasNonRootReactChild, &apos;render(...): Replacing React-rendered children with a new root &apos; + &apos;component. If you intended to update the children of this node, &apos; + &apos;you should instead have the existing children update their state &apos; + &apos;and render the new components instead of calling ReactDOM.render.&apos;) : void 0;</span><br><span class="line"></span><br><span class="line">        if (!containerHasReactMarkup || reactRootElement.nextSibling) &#123;</span><br><span class="line">            var rootElementSibling = reactRootElement;</span><br><span class="line">            while (rootElementSibling) &#123;</span><br><span class="line">                if (internalGetID(rootElementSibling)) &#123;</span><br><span class="line">                    process.env.NODE_ENV !== &apos;production&apos; ? warning(false, &apos;render(): Target node has markup rendered by React, but there &apos; + &apos;are unrelated nodes as well. This is most commonly caused by &apos; + &apos;white-space inserted around server-rendered markup.&apos;) : void 0;</span><br><span class="line">                    break;</span><br><span class="line">                &#125;</span><br><span class="line">                rootElementSibling = rootElementSibling.nextSibling;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    var shouldReuseMarkup = containerHasReactMarkup &amp;&amp; !prevComponent &amp;&amp; !containerHasNonRootReactChild;</span><br><span class="line">    //加载到dom上</span><br><span class="line">    var component = ReactMount._renderNewRootComponent(nextWrappedElement, container, shouldReuseMarkup, nextContext)._renderedComponent.getPublicInstance();</span><br><span class="line">    if (callback) &#123;</span><br><span class="line">        callback.call(component);</span><br><span class="line">    &#125;</span><br><span class="line">    return component;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<p>这段代码非常重要，<code>render</code>函数的功能全部再在此。</p>
+<p>我们先来解析传入<code>_renderSubtreeIntoContainer</code>的参数：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:center">功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>parentComponent</code></td>
+<td style="text-align:center">当前组件的父组件，第一次渲染时为<code>null</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>nextElement</code></td>
+<td style="text-align:center">要插入DOM中的组件，如<code>helloWorld</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>container</code></td>
+<td style="text-align:center">要插入的容器，如<code>document.getElementById(&#39;root&#39;)</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>callback</code></td>
+<td style="text-align:center">完成后的回调函数</td>
+</tr>
+</tbody>
+</table>
+<p>这几个参数的功能很好理解，接下来我们逐行进行逻辑分析：</p>
+<ul>
+<li>line 2：将当前组件添加到前一级的<code>props</code>属性下。(本文开头已说明父子嵌套关系由<code>props</code>提供)</li>
+<li>line 4 ~ 22：调用<code>getTopLevelWrapperInContainer</code>方法判断当前容器下是否存在组件，记为<code>prevComponent</code>；如果有即<code>prevComponent为true</code>，执行更新流程，即调用<code>_updateRootComponent</code>方法。若不存在，则卸载。(调用<code>unmountComponentAtNode</code>方法)</li>
+<li>line 24：不管是更新还是卸载，最终都要挂载到真实的DOM上。看下<code>._renderNewRootComponent</code>的源码：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">_renderNewRootComponent: function (nextElement, container, shouldReuseMarkup, context) &#123;</span><br><span class="line">    // Various parts of our code (such as ReactCompositeComponent&apos;s</span><br><span class="line">    // _renderValidatedComponent) assume that calls to render aren&apos;t nested;</span><br><span class="line">    // verify that that&apos;s the case.</span><br><span class="line">    process.env.NODE_ENV !== &apos;production&apos; ? warning(ReactCurrentOwner.current == null, &apos;_renderNewRootComponent(): Render methods should be a pure function &apos; + &apos;of props and state; triggering nested component updates from &apos; + &apos;render is not allowed. If necessary, trigger nested updates in &apos; + &apos;componentDidUpdate. Check the render method of %s.&apos;, ReactCurrentOwner.current &amp;&amp; ReactCurrentOwner.current.getName() || &apos;ReactCompositeComponent&apos;) : void 0;</span><br><span class="line"></span><br><span class="line">    !isValidContainer(container) ? process.env.NODE_ENV !== &apos;production&apos; ? invariant(false, &apos;_registerComponent(...): Target container is not a DOM element.&apos;) : _prodInvariant(&apos;37&apos;) : void 0;</span><br><span class="line"></span><br><span class="line">    ReactBrowserEventEmitter.ensureScrollValueMonitoring();</span><br><span class="line">    var componentInstance = instantiateReactComponent(nextElement, false);</span><br><span class="line"></span><br><span class="line">    // The initial render is synchronous but any updates that happen during</span><br><span class="line">    // rendering, in componentWillMount or componentDidMount, will be batched</span><br><span class="line">    // according to the current batching strategy.</span><br><span class="line">    // 通过一个批处理的方式去处理MountComponentIntoNode方法</span><br><span class="line">    ReactUpdates.batchedUpdates(batchedMountComponentIntoNode, componentInstance, container, shouldReuseMarkup, context);</span><br><span class="line"></span><br><span class="line">    var wrapperID = componentInstance._instance.rootID;</span><br><span class="line">    instancesByReactRootID[wrapperID] = componentInstance;</span><br><span class="line"></span><br><span class="line">    return componentInstance;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>分析一下流程：</p>
+<ul>
+<li>第3行出现了<code>instantiateReactComponent</code>包装方法，这个我们后面再说。</li>
+<li>第5行中<code>batchedMountComponentIntoNode</code>以事务的形式调用<code>mountComponentIntoNode</code>(事务将专门拿出一篇文章来解析)，该方法返回组件对应的HTML，记为变量markup。而<code>mountComponentIntoNode</code>最终调用的是<code>_mountImageIntoNode</code>，看下源码：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">_mountImageIntoNode: function (markup, container, instance, shouldReuseMarkup, transaction) &#123;</span><br><span class="line">    !isValidContainer(container) ? process.env.NODE_ENV !== &apos;production&apos; ? invariant(false, &apos;mountComponentIntoNode(...): Target container is not valid.&apos;) : _prodInvariant(&apos;41&apos;) : void 0;</span><br><span class="line"></span><br><span class="line">    if (shouldReuseMarkup) &#123;</span><br><span class="line">        var rootElement = getReactRootElementInContainer(container);</span><br><span class="line">        if (ReactMarkupChecksum.canReuseMarkup(markup, rootElement)) &#123;</span><br><span class="line">            ReactDOMComponentTree.precacheNode(instance, rootElement);</span><br><span class="line">            return;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            var checksum = rootElement.getAttribute(ReactMarkupChecksum.CHECKSUM_ATTR_NAME);</span><br><span class="line">            rootElement.removeAttribute(ReactMarkupChecksum.CHECKSUM_ATTR_NAME);</span><br><span class="line"></span><br><span class="line">            var rootMarkup = rootElement.outerHTML;</span><br><span class="line">            rootElement.setAttribute(ReactMarkupChecksum.CHECKSUM_ATTR_NAME, checksum);</span><br><span class="line"></span><br><span class="line">            var normalizedMarkup = markup;</span><br><span class="line">            if (process.env.NODE_ENV !== &apos;production&apos;) &#123;</span><br><span class="line">                // because rootMarkup is retrieved from the DOM, various normalizations</span><br><span class="line">                // will have occurred which will not be present in `markup`. Here,</span><br><span class="line">                // insert markup into a &lt;div&gt; or &lt;iframe&gt; depending on the container</span><br><span class="line">                // type to perform the same normalizations before comparing.</span><br><span class="line">                var normalizer;</span><br><span class="line">                if (container.nodeType === ELEMENT_NODE_TYPE) &#123;</span><br><span class="line">                    normalizer = document.createElement(&apos;div&apos;);</span><br><span class="line">                    normalizer.innerHTML = markup;</span><br><span class="line">                    normalizedMarkup = normalizer.innerHTML;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    normalizer = document.createElement(&apos;iframe&apos;);</span><br><span class="line">                    document.body.appendChild(normalizer);</span><br><span class="line">                    normalizer.contentDocument.write(markup);</span><br><span class="line">                    normalizedMarkup = normalizer.contentDocument.documentElement.outerHTML;</span><br><span class="line">                    document.body.removeChild(normalizer);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            var diffIndex = firstDifferenceIndex(normalizedMarkup, rootMarkup);</span><br><span class="line">            var difference = &apos; (client) &apos; + normalizedMarkup.substring(diffIndex - 20, diffIndex + 20) + &apos;\n (server) &apos; + rootMarkup.substring(diffIndex - 20, diffIndex + 20);</span><br><span class="line"></span><br><span class="line">            !(container.nodeType !== DOC_NODE_TYPE) ? process.env.NODE_ENV !== &apos;production&apos; ? invariant(false, &apos;You\&apos;re trying to render a component to the document using server rendering but the checksum was invalid. This usually means you rendered a different component type or props on the client from the one on the server, or your render() methods are impure. React cannot handle this case due to cross-browser quirks by rendering at the document root. You should look for environment dependent code in your components and ensure the props are the same client and server side:\n%s&apos;, difference) : _prodInvariant(&apos;42&apos;, difference) : void 0;</span><br><span class="line"></span><br><span class="line">            if (process.env.NODE_ENV !== &apos;production&apos;) &#123;</span><br><span class="line">                process.env.NODE_ENV !== &apos;production&apos; ? warning(false, &apos;React attempted to reuse markup in a container but the &apos; + &apos;checksum was invalid. This generally means that you are &apos; + &apos;using server rendering and the markup generated on the &apos; + &apos;server was not what the client was expecting. React injected &apos; + &apos;new markup to compensate which works but you have lost many &apos; + &apos;of the benefits of server rendering. Instead, figure out &apos; + &apos;why the markup being generated is different on the client &apos; + &apos;or server:\n%s&apos;, difference) : void 0;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    !(container.nodeType !== DOC_NODE_TYPE) ? process.env.NODE_ENV !== &apos;production&apos; ? invariant(false, &apos;You\&apos;re trying to render a component to the document but you didn\&apos;t use server rendering. We can\&apos;t do this without using server rendering due to cross-browser quirks. See ReactDOMServer.renderToString() for server rendering.&apos;) : _prodInvariant(&apos;43&apos;) : void 0;</span><br><span class="line"></span><br><span class="line">    if (transaction.useCreateElement) &#123;</span><br><span class="line">        while (container.lastChild) &#123;</span><br><span class="line">            container.removeChild(container.lastChild);</span><br><span class="line">        &#125;</span><br><span class="line">        DOMLazyTree.insertTreeBefore(container, markup, null);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        //执行的主要是这行</span><br><span class="line">        setInnerHTML(container, markup);</span><br><span class="line">        ReactDOMComponentTree.precacheNode(instance, container.firstChild);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (process.env.NODE_ENV !== &apos;production&apos;) &#123;</span><br><span class="line">        var hostNode = ReactDOMComponentTree.getInstanceFromNode(container.firstChild);</span><br><span class="line">        if (hostNode._debugID !== 0) &#123;</span><br><span class="line">            ReactInstrumentation.debugTool.onHostOperation(&#123;</span><br><span class="line">                instanceID: hostNode._debugID,</span><br><span class="line">                type: &apos;mount&apos;,</span><br><span class="line">                payload: markup.toString()</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>核心代码就是最后两行。<code>setInnerHTML</code>是一个方法，将<code>markup</code>设置为<code>container</code>的<code>innerHTML</code>属性，这样就完成了DOM的插入。<code>precacheNode</code>方法是将处理好的组件对象存储在缓存中，提高结构更新的速度。</p>
+<p>React组件初始化和挂载的流程到这里基本明朗了。在<code>ReactDOM.render()</code>的方法使用中，我们会注意到该方法可以挂载React组件，也可以挂载字符串，也可以挂载原生DOM。现在我们已经知道，其实挂载就是利用<code>innerHTML</code>属性，但是对于不同的元素结构，React是否也有不同的处理呢？</p>
+<p>上文我们提到，在组件挂载的倒数第二步，也就是执行<code>_renderNewRootComponent</code>方法时，我们看到有一个名为<code>instantiateReactComponent</code>的方法返回一个经过加工的对象。我们看下<code>instantiateReactComponent</code>的源码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">function instantiateReactComponent(node, shouldHaveDebugID) &#123;</span><br><span class="line">    var instance;</span><br><span class="line"></span><br><span class="line">    if (node === null || node === false) &#123;</span><br><span class="line">        instance = ReactEmptyComponent.create(instantiateReactComponent);</span><br><span class="line">    &#125; else if (typeof node === &apos;object&apos;) &#123;</span><br><span class="line">        var element = node;</span><br><span class="line">        var type = element.type;</span><br><span class="line">        if (typeof type !== &apos;function&apos; &amp;&amp; typeof type !== &apos;string&apos;) &#123;</span><br><span class="line">        var info = &apos;&apos;;</span><br><span class="line">        if (process.env.NODE_ENV !== &apos;production&apos;) &#123;</span><br><span class="line">            if (type === undefined || typeof type === &apos;object&apos; &amp;&amp; type !== null &amp;&amp; Object.keys(type).length === 0) &#123;</span><br><span class="line">            info += &apos; You likely forgot to export your component from the file &apos; + &quot;it&apos;s defined in.&quot;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        info += getDeclarationErrorAddendum(element._owner);</span><br><span class="line">        !false ? process.env.NODE_ENV !== &apos;production&apos; ? invariant(false, &apos;Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: %s.%s&apos;, type == null ? type : typeof type, info) : _prodInvariant(&apos;130&apos;, type == null ? type : typeof type, info) : void 0;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // Special case string values</span><br><span class="line">        if (typeof element.type === &apos;string&apos;) &#123;</span><br><span class="line">            instance = ReactHostComponent.createInternalComponent(element);</span><br><span class="line">        &#125; else if (isInternalComponentType(element.type)) &#123;</span><br><span class="line">            // This is temporarily available for custom components that are not string</span><br><span class="line">            // representations. I.e. ART. Once those are updated to use the string</span><br><span class="line">            // representation, we can drop this code path.</span><br><span class="line">            instance = new element.type(element);</span><br><span class="line"></span><br><span class="line">            // We renamed this. Allow the old name for compat. :(</span><br><span class="line">            if (!instance.getHostNode) &#123;</span><br><span class="line">                instance.getHostNode = instance.getNativeNode;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            instance = new ReactCompositeComponentWrapper(element);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; else if (typeof node === &apos;string&apos; || typeof node === &apos;number&apos;) &#123;</span><br><span class="line">        instance = ReactHostComponent.createInstanceForText(node);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        !false ? process.env.NODE_ENV !== &apos;production&apos; ? invariant(false, &apos;Encountered invalid React node of type %s&apos;, typeof node) : _prodInvariant(&apos;131&apos;, typeof node) : void 0;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (process.env.NODE_ENV !== &apos;production&apos;) &#123;</span><br><span class="line">        process.env.NODE_ENV !== &apos;production&apos; ? warning(typeof instance.mountComponent === &apos;function&apos; &amp;&amp; typeof instance.receiveComponent === &apos;function&apos; &amp;&amp; typeof instance.getHostNode === &apos;function&apos; &amp;&amp; typeof instance.unmountComponent === &apos;function&apos;, &apos;Only React Components can be mounted.&apos;) : void 0;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // These two fields are used by the DOM and ART diffing algorithms</span><br><span class="line">    // respectively. Instead of using expandos on components, we should be</span><br><span class="line">    // storing the state needed by the diffing algorithms elsewhere.</span><br><span class="line">    instance._mountIndex = 0;</span><br><span class="line">    instance._mountImage = null;</span><br><span class="line"></span><br><span class="line">    if (process.env.NODE_ENV !== &apos;production&apos;) &#123;</span><br><span class="line">        instance._debugID = shouldHaveDebugID ? getNextDebugID() : 0;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // Internal instances should fully constructed at this point, so they should</span><br><span class="line">    // not get any new fields added to them at this point.</span><br><span class="line">    if (process.env.NODE_ENV !== &apos;production&apos;) &#123;</span><br><span class="line">        if (Object.preventExtensions) &#123;</span><br><span class="line">            Object.preventExtensions(instance);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return instance;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>传入的参数<code>node</code>就是<code>ReactDOM.render</code>方法的组件参数，输入<code>node</code>和输出<code>instance</code>可以总结如下表：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><code>node</code></th>
+<th style="text-align:center">实际参数</th>
+<th style="text-align:center">结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>null</code>/<code>false</code></td>
+<td style="text-align:center">空</td>
+<td style="text-align:center">创建<code>ReactEmptyComponent</code>组件</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>object</code>&amp;&amp;<code>type === string</code></td>
+<td style="text-align:center">虚拟DOM</td>
+<td style="text-align:center">创建<code>ReactDOMComponent</code>组件</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>object</code>&amp;&amp;<code>type !== string</code></td>
+<td style="text-align:center">React组件</td>
+<td style="text-align:center">创建<code>ReactCompositeComponent</code>组件</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>string</code></td>
+<td style="text-align:center">字符串</td>
+<td style="text-align:center">创建<code>ReactTextComponent</code>组件</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>number</code></td>
+<td style="text-align:center">数字</td>
+<td style="text-align:center">创建<code>ReactTextComponent</code>组件</td>
+</tr>
+</tbody>
+</table>
+<p>梳理一下流程：</p>
+<ul>
+<li>根据<code>ReactDOM.render()</code>传入不同的参数，React内部会创建四大类封装组件，记为<code>componentInstance</code>。</li>
+<li>而后将其作为参数传入<code>mountComponentIntoNode</code>方法中，由此获得组件对应的HTML，记为变量<code>markup</code>。</li>
+<li>将真实的DOM的属性<code>innerHTML</code>设置为<code>markup</code>，即完成了DOM插入。</li>
+</ul>
+<p>那么问题来了，在上述第二步是如何解析出HTML的呢？答案是在第一步封装成四大类型组件的过程中，赋予了封装组件<code>mountComponet</code>方法， 执行该方法会触发组件的生命周期，从而解析出HTML。</p>
+<p>当然，这四大类组件我们最常用的就是<code>ReactCompositeComponent</code>组件，也就是我们常说的React组件，其内部具有完整的生命周期，也是React最关键的组件特性。关于详细的组件类型与生命周期的部分，我们在下一篇文章讲解。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>用一张图来梳理React组件从声明到初始化再到挂载的流程：</p>
+<p><img src="/images/ReactSource1/5.png" alt="avatar"></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/React/" rel="tag"># React</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/11/fourBadHabit/" rel="next" title="低层次的学习者的4个坏习惯">
+                <i class="fa fa-chevron-left"></i> 低层次的学习者的4个坏习惯
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Lifeng Wang">
+            
+              <p class="site-author-name" itemprop="name">Lifeng Wang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#组件是什么"><span class="nav-number">1.</span> <span class="nav-text">组件是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组件的初始化"><span class="nav-number">2.</span> <span class="nav-text">组件的初始化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组件的挂载"><span class="nav-number">3.</span> <span class="nav-text">组件的挂载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lifeng Wang</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+      
+  
+  <script type="text/javascript" color="0,0,255" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script id="ribbon" type="text/javascript" size="300" alpha="0.6" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.6.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.6.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.6.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.6.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.6.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.6.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.6.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
