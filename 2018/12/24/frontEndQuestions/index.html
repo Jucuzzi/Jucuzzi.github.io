@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.6.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.6.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.6.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.6.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="因为公司的组织架构调整，博主被安排去做C++，大前端的梦想处于破碎的边缘，不得已，博主出门找工作，面试了多家公司却找不到合适的，暂时把面试的经验和问题总结一下 第一部分：JavaScript基础知识JavaScript有哪几种数据类型ECMAScript中有5中简单数据类型（也称为基本数据类型）: Undefined、Null、Boolean、Number和String。还有1中复杂的数据类型——">
+<meta name="keywords" content="面试">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端面试，看我这一篇就够了">
+<meta property="og:url" content="http://yoursite.com/2018/12/24/frontEndQuestions/index.html">
+<meta property="og:site_name" content="王力丰的全栈小屋">
+<meta property="og:description" content="因为公司的组织架构调整，博主被安排去做C++，大前端的梦想处于破碎的边缘，不得已，博主出门找工作，面试了多家公司却找不到合适的，暂时把面试的经验和问题总结一下 第一部分：JavaScript基础知识JavaScript有哪几种数据类型ECMAScript中有5中简单数据类型（也称为基本数据类型）: Undefined、Null、Boolean、Number和String。还有1中复杂的数据类型——">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-12-24T09:19:47.231Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="前端面试，看我这一篇就够了">
+<meta name="twitter:description" content="因为公司的组织架构调整，博主被安排去做C++，大前端的梦想处于破碎的边缘，不得已，博主出门找工作，面试了多家公司却找不到合适的，暂时把面试的经验和问题总结一下 第一部分：JavaScript基础知识JavaScript有哪几种数据类型ECMAScript中有5中简单数据类型（也称为基本数据类型）: Undefined、Null、Boolean、Number和String。还有1中复杂的数据类型——">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/12/24/frontEndQuestions/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>前端面试，看我这一篇就够了 | 王力丰的全栈小屋</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王力丰的全栈小屋</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">这，这就触及到我的知识盲区了</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/24/frontEndQuestions/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lifeng Wang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王力丰的全栈小屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">前端面试，看我这一篇就够了
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-24 12:40:52 / 修改时间：17:19:47" itemprop="dateCreated datePublished" datetime="2018-12-24T12:40:52+08:00">2018-12-24</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/前端/" itemprop="url" rel="index"><span itemprop="name">前端</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>因为公司的组织架构调整，博主被安排去做C++，大前端的梦想处于破碎的边缘，不得已，博主出门找工作，面试了多家公司却找不到合适的，暂时把面试的经验和问题总结一下</p>
+<h1 id="第一部分：JavaScript基础知识"><a href="#第一部分：JavaScript基础知识" class="headerlink" title="第一部分：JavaScript基础知识"></a>第一部分：JavaScript基础知识</h1><h2 id="JavaScript有哪几种数据类型"><a href="#JavaScript有哪几种数据类型" class="headerlink" title="JavaScript有哪几种数据类型"></a>JavaScript有哪几种数据类型</h2><p>ECMAScript中有5中简单数据类型（也称为基本数据类型）: Undefined、Null、Boolean、Number和String。还有1中复杂的数据类型————Object，Object本质上是由一组无序的名值对组成的。<br>es6中新增了let命令来声明变量、const命令声明一个只读的常量。</p>
+<h2 id="如何判断一个对象是不是Array？"><a href="#如何判断一个对象是不是Array？" class="headerlink" title="如何判断一个对象是不是Array？"></a>如何判断一个对象是不是Array？</h2><p>我第一次的回答是instanceof和typeof，被华为的面试官嘲笑了，这里主要是问typeof，typeof只能判断基本数据类型，对于引用数据类型，或者NULL，返回的都是object，而稍微深入一点，关于instanceof的源码，我觉得应该是这样的<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(x.__proto__!==<span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span>(x.__proto__===y.prototype) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">break</span>; </span><br><span class="line">    &#125; </span><br><span class="line">    x.__proto__ = x.__proto__.proto__; </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span>(x.__proto__==<span class="literal">null</span>) &#123;returnfalse;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>另外一种兼容性好一点的方法是<code>Object.prototype.toString.call()</code>来进行判断是数组还是对象<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isObjArr</span>(<span class="params">value</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">Object</span>.prototype.toString.call(value) === <span class="string">"[object Array]"</span>) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'value是数组'</span>);</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="built_in">Object</span>.prototype.toString.call(value)===<span class="string">'[object Object]'</span>)&#123;<span class="comment">//这个方法兼容性好一点</span></span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'value是对象'</span>);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'value不是数组也不是对象'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="call-和apply-有什么区别？"><a href="#call-和apply-有什么区别？" class="headerlink" title="call()和apply()有什么区别？"></a>call()和apply()有什么区别？</h2><p>call()和apply()第一个参数将用作函数内 this 的值,用于改变函数的this指向。call和apply的区别在于call()方法接受逗号分隔的参数作为后面的参数，apply()接受一个参数数组作为后面的参数。<br><code>简单记忆法：comma-separated，逗号分隔，所以call第一个参数this，传入的参数都用逗号分隔，而apply()中的a联想到Array，第二个参数是数组</code></p>
+<h2 id="如何实现一个闭包，闭包的作用有哪些"><a href="#如何实现一个闭包，闭包的作用有哪些" class="headerlink" title="如何实现一个闭包，闭包的作用有哪些"></a>如何实现一个闭包，闭包的作用有哪些</h2><p>在一个函数里面嵌套另一个函数，被嵌套的那个函数的作用域是一个闭包。</p>
+<p><code>作用：创建私有变量，减少全局变量，防止变量名污染。可以操作外部作用域的变量，变量不会被浏览器回收，保存变量的值。</code></p>
+<h2 id="从浏览器的url中输入链接地址之后，到页面渲染出来，一共经历了那些步骤"><a href="#从浏览器的url中输入链接地址之后，到页面渲染出来，一共经历了那些步骤" class="headerlink" title="从浏览器的url中输入链接地址之后，到页面渲染出来，一共经历了那些步骤"></a>从浏览器的url中输入链接地址之后，到页面渲染出来，一共经历了那些步骤</h2><ol>
+<li>浏览器的地址栏输入URL并按下回车。</li>
+<li>浏览器查找当前URL是否存在缓存，并比较缓存是否过期。</li>
+<li>DNS解析URL对应的IP。</li>
+<li>根据IP建立TCP连接（三次握手）。</li>
+<li>HTTP发起请求。</li>
+<li>服务器处理请求，浏览器接收HTTP响应。</li>
+<li>渲染页面，构建DOM树。</li>
+<li>关闭TCP连接（四次挥手)。</li>
+</ol>
+<p>其中可以询问的知识点如下：</p>
+<ol>
+<li>URL<br>URL是什么构成的：协议名，域名和端口号，协议有哪些协议，域名或者IP的区别，端口号常见的有哪些</li>
+<li>缓存<br>说完URL我们说说浏览器缓存,HTTP缓存有多种规则，根据是否需要重新向服务器发起请求来分类，我将其分为强制缓存，对比缓存。<br><code>强制缓存</code>判断HTTP首部字段：<code>cache-control</code>，<code>Expires</code>。<br>Expires是一个绝对时间，即服务器时间。浏览器检查当前时间，如果还没到失效时间就直接使用缓存文件。但是该方法存在一个问题：服务器时间与客户端时间可能不一致。因此该字段已经很少使用。<br>cache-control中的max-age保存一个相对时间。例如Cache-Control: max-age = 484200，表示浏览器收到文件后，缓存在484200s内均有效。 如果同时存在cache-control和Expires，浏览器总是优先使用cache-control。<br><code>对比缓存</code>通过HTTP的<code>last-modified</code>，<code>Etag</code>字段进行判断。<br>last-modified是第一次请求资源时，服务器返回的字段，表示最后一次更新的时间。下一次浏览器请求资源时就发送if-modified-since字段。服务器用本地Last-modified时间与if-modified-since时间比较，如果不一致则认为缓存已过期并返回新资源给浏览器；如果时间一致则发送304状态码，让浏览器继续使用缓存。<br>Etag：资源的实体标识（哈希字符串），当资源内容更新时，Etag会改变。服务器会判断Etag是否发生变化，如果变化则返回新资源，否则返回304。</li>
+<li>DNS域名解析<br>我们知道在地址栏输入的域名并不是最后资源所在的真实位置，域名只是与IP地址的一个映射。网络服务器的IP地址那么多，我们不可能去记一串串的数字，因此域名就产生了，域名解析的过程实际是将域名还原为IP地址的过程。<br>首先浏览器先检查本地hosts文件是否有这个网址映射关系，如果有就调用这个IP地址映射，完成域名解析。<br>如果没找到则会查找本地DNS解析器缓存，如果查找到则返回。<br>如果还是没有找到则会查找本地DNS服务器，如果查找到则返回。<br>最后迭代查询，按根域服务器 -&gt;顶级域,.cn-&gt;第二层域，hb.cn -&gt;子域，<a href="http://www.hb.cn" target="_blank" rel="noopener">www.hb.cn</a> 的顺序找到IP地址。</li>
+<li><p>TCP连接<br>在通过第一步的DNS域名解析后，获取到了服务器的IP地址，在获取到IP地址后，便会开始建立一次连接，这是由TCP协议完成的，主要通过三次握手进行连接。完成三次握手，客户端与服务器开始传送数据。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">第一次握手： 建立连接时，客户端发送syn包（syn=j）到服务器，并进入SYN_SENT状态，等待服务器确认； </span><br><span class="line">第二次握手： 服务器收到syn包，必须确认客户的SYN（ack=j+1），同时自己也发送一个SYN包（syn=k），即SYN+ACK包，此时服务器进入SYN_RECV状态；</span><br><span class="line">第三次握手： 客户端收到服务器的SYN+ACK包，向服务器发送确认包ACK(ack=k+1），此包发送完毕，客户端和服务器进入ESTABLISHED（TCP连接成功）状态，完成三次握手。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>浏览器向服务器发送HTTP请求<br>完整的HTTP请求包含请求起始行、请求头部、请求主体三部分</p>
+</li>
+<li><p>浏览器接收响应<br>服务器在收到浏览器发送的HTTP请求之后，会将收到的HTTP报文封装成HTTP的Request对象，并通过不同的Web服务器进行处理，处理完的结果以HTTP的Response对象返回，主要包括状态码，响应头，响应报文三个部分。<br>状态码主要包括以下部分</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1xx：指示信息–表示请求已接收，继续处理。</span><br><span class="line">2xx：成功–表示请求已被成功接收、理解、接受。</span><br><span class="line">3xx：重定向–要完成请求必须进行更进一步的操作。</span><br><span class="line">4xx：客户端错误–请求有语法错误或请求无法实现。</span><br><span class="line">5xx：服务器端错误–服务器未能实现合法的请求。</span><br><span class="line">响应头主要由Cache-Control、 Connection、Date、Pragma等组成。</span><br><span class="line">响应体为服务器返回给浏览器的信息，主要由HTML，css，js，图片文件组成。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>页面渲染<br>如果说响应的内容是HTML文档的话，就需要浏览器进行解析渲染呈现给用户。整个过程涉及两个方面：解析和渲染。在渲染页面之前，需要构建DOM树和CSSOM树。<br>在浏览器还没接收到完整的 HTML 文件时，它就开始渲染页面了，在遇到外部链入的脚本标签或样式标签或图片时，会再次发送 HTTP 请求重复上述的步骤。在收到 CSS 文件后会对已经渲染的页面重新渲染，加入它们应有的样式，图片文件加载完立刻显示在相应位置。在这一过程中可能会触发页面的重绘或重排。这里就涉及了两个重要概念：Reflow和Repaint。<br><code>Reflow</code>，也称作Layout，中文叫回流，一般意味着元素的内容、结构、位置或尺寸发生了变化，需要重新计算样式和渲染树，这个过程称为Reflow。<br><code>Repaint</code>，中文重绘，意味着元素发生的改变只是影响了元素的一些外观之类的时候（例如，背景色，边框颜色，文字颜色等），此时只需要应用新样式绘制这个元素就OK了，这个过程称为Repaint。<br>所以说Reflow的成本比Repaint的成本高得多的多。DOM树里的每个结点都会有reflow方法，一个结点的reflow很有可能导致子结点，甚至父点以及同级结点的reflow。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">下面这些动作有很大可能会是成本比较高的：</span><br><span class="line">增加、删除、修改DOM结点时，会导致Reflow或Repaint</span><br><span class="line">移动DOM的位置，或是搞个动画的时候</span><br><span class="line">内容发生变化</span><br><span class="line">修改CSS样式的时候</span><br><span class="line">Resize窗口的时候（移动端没有这个问题），或是滚动的时候</span><br><span class="line">修改网页的默认字体时</span><br><span class="line">基本上来说，reflow有如下的几个原因：</span><br><span class="line">1、Initial，网页初始化的时候</span><br><span class="line">2、Incremental，一些js在操作DOM树时</span><br><span class="line">3、Resize，其些元件的尺寸变了</span><br><span class="line">4、StyleChange，如果CSS的属性发生变化了</span><br><span class="line">5、Dirty，几个Incremental的reflow发生在同一个frame的子树上</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>关闭TCP连接或继续保持连接<br>通过四次挥手关闭连接(FIN ACK, ACK, FIN ACK, ACK)。<br>第一次挥手是浏览器发完数据后，发送FIN请求断开连接。<br>第二次挥手是服务器发送ACK表示同意，如果在这一次服务器也发送FIN请求断开连接似乎也没有不妥，但考虑到服务器可能还有数据要发送，所以服务器发送FIN应该放在第三次挥手中。<br>这样浏览器需要返回ACK表示同意，也就是第四次挥手。</p>
+</li>
+</ol>
+<h2 id="手写bind函数"><a href="#手写bind函数" class="headerlink" title="手写bind函数"></a>手写bind函数</h2><p>这题是在面试网易的过程中碰到的，面试官看着的情况下如何把多种异常情况考虑全，是非常考验的事情，需要认真准备<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!<span class="built_in">Function</span>.prototype.bind) &#123;</span><br><span class="line">    <span class="built_in">Function</span>.prototype.bind = <span class="function"><span class="keyword">function</span>(<span class="params">oThis</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="keyword">this</span> !== <span class="string">'function'</span>) &#123;</span><br><span class="line">        <span class="comment">// closest thing possible to the ECMAScript 5</span></span><br><span class="line">        <span class="comment">// internal IsCallable function</span></span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">TypeError</span>(<span class="string">'Function.prototype.bind - what is trying to be bound is not callable'</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> aArgs   = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>, <span class="number">1</span>),</span><br><span class="line">        fToBind = <span class="keyword">this</span>,</span><br><span class="line">        fNOP    = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;,</span><br><span class="line">        fBound  = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> fToBind.apply(<span class="keyword">this</span> <span class="keyword">instanceof</span> fNOP ? <span class="keyword">this</span> : oThis, aArgs.concat(<span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>)));</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.prototype) &#123;</span><br><span class="line">            <span class="comment">// Function.prototype doesn't have a prototype property</span></span><br><span class="line">            fNOP.prototype = <span class="keyword">this</span>.prototype; </span><br><span class="line">        &#125;</span><br><span class="line">        fBound.prototype = <span class="keyword">new</span> fNOP();</span><br><span class="line">        <span class="keyword">return</span> fBound;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="事件委托是怎么回事，写一个简单的实现"><a href="#事件委托是怎么回事，写一个简单的实现" class="headerlink" title="事件委托是怎么回事，写一个简单的实现"></a>事件委托是怎么回事，写一个简单的实现</h2><p>原生js的写法<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> lists = <span class="built_in">document</span>.getElementById(<span class="string">"lists"</span>);</span><br><span class="line"></span><br><span class="line">lists.addEventListener(<span class="string">"click"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> target = event.target;</span><br><span class="line">    <span class="comment">//防止父元素ul也触发事件</span></span><br><span class="line">    <span class="keyword">if</span>(target.nodeName == <span class="string">"LI"</span>)&#123;</span><br><span class="line">        target.style.backgroundColor = <span class="string">"red"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>jquery的写法<br>1、on的写法<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    $(<span class="string">"#lists"</span>).on(<span class="string">"click"</span>,<span class="string">"li"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">var</span> target = $(event.target);</span><br><span class="line">        target.css(<span class="string">"background-color"</span>,<span class="string">"red"</span>);</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>2、delegate的写法<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    $(<span class="string">"#lists"</span>).delegate(<span class="string">"li"</span>,<span class="string">"click"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">var</span> target = $(event.target);</span><br><span class="line">        target.css(<span class="string">"background-color"</span>,<span class="string">"red"</span>);</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>3、bind的写法<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    $(<span class="string">"#lists"</span>).bind(<span class="string">"click"</span>,<span class="string">"li"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">var</span> target = $(event.target);</span><br><span class="line">        <span class="keyword">if</span>(target.prop(<span class="string">"nodeName"</span>)==<span class="string">"LI"</span>)&#123;</span><br><span class="line">            target.css(<span class="string">"background-color"</span>,<span class="string">"red"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>其中bind的实现和原生的javaScript的实现方法是一样的，当父元素代子元素执行事件时，父元素也会触发事件，所以要单独判断触发事件的元素名<br>jquery从1.7之后就不推荐delegate方法了，所以还是jquery的on方法比较好一点</p>
+<h2 id="你对Promise怎么看，如何手动实现Promise的功能"><a href="#你对Promise怎么看，如何手动实现Promise的功能" class="headerlink" title="你对Promise怎么看，如何手动实现Promise的功能"></a>你对Promise怎么看，如何手动实现Promise的功能</h2><h1 id="第二部分：ES6问题"><a href="#第二部分：ES6问题" class="headerlink" title="第二部分：ES6问题"></a>第二部分：ES6问题</h1><h2 id="变量提升"><a href="#变量提升" class="headerlink" title="变量提升"></a>变量提升</h2><p>主要考察js的解析机制</p>
+<ol>
+<li>let 的「创建」过程被提升了，但是初始化没有提升。</li>
+<li>var 的「创建」和「初始化」都被提升了。</li>
+<li>function 的「创建」「初始化」和「赋值」都被提升了。<br>遇到 script 标签的话 js 就进行预解析，将变量 var 和 function 声明提升，但不会执行 function，然后就进入上下文执行，上下文执行还是执行预解析同样操作，直到没有 var 和 function，就开始执行上下文。如: <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a=<span class="number">5</span>;</span><br><span class="line">show();</span><br><span class="line"><span class="keyword">var</span> a;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">show</span>(<span class="params"></span>)</span>&#123;&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>预解析的结果<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">show</span>(<span class="params"></span>)</span>&#123;&#125;;</span><br><span class="line"><span class="keyword">var</span> a;</span><br><span class="line">a=<span class="number">5</span>;</span><br><span class="line">show();</span><br></pre></td></tr></table></figure></p>
+<p>而在函数和变量都提升的时候，是函数先提升，变量再提升的</p>
+<h2 id="Promise和Generator和Async-Await"><a href="#Promise和Generator和Async-Await" class="headerlink" title="Promise和Generator和Async/Await"></a>Promise和Generator和Async/Await</h2><h3 id="Promise实现请求超时处理"><a href="#Promise实现请求超时处理" class="headerlink" title="Promise实现请求超时处理"></a>Promise实现请求超时处理</h3><p><code>核心思想：通过Promise.race，一个promise是timeout计时，另一个promise是http请求，在这两个Promise之间比赛一下</code><br>具体代码实现<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">delayPromise</span>(<span class="params">ms</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve</span>) </span>&#123;</span><br><span class="line">        setTimeout(resolve, ms);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">timeoutPromise</span>(<span class="params">promise, ms</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> timeout = delayPromise(ms).then(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'Operation timed out after '</span> + ms + <span class="string">' ms'</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Promise</span>.race([promise, timeout]);</span><br><span class="line">&#125;</span><br><span class="line">timeoutPromise(get(<span class="string">'http://demos.so/result/homework.promise.userInfo'</span>),<span class="number">1000</span>).catch(<span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(err);</span><br><span class="line">&#125;).then(<span class="function"><span class="keyword">function</span> (<span class="params">args</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Promise</span>.all([timeoutPromise(get(<span class="string">'http://demos.so/result/userid='</span> + args[<span class="string">'_id'</span>]), <span class="number">1000</span>), timeoutPromise(get(<span class="string">'http://demos.so/result/student='</span> + args[<span class="string">'_id'</span>]), <span class="number">1000</span>)]);</span><br><span class="line">&#125;).then(<span class="function"><span class="keyword">function</span> (<span class="params">args</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(args);</span><br><span class="line">&#125;).catch(<span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(err);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<h3 id="Promise实现中断或者取消"><a href="#Promise实现中断或者取消" class="headerlink" title="Promise实现中断或者取消"></a>Promise实现中断或者取消</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** 用于中断的信号 */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BreakSignal</span> </span>&#123; &#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">Promise</span></span><br><span class="line">.then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line"><span class="comment">// 开始.</span></span><br><span class="line">&#125;)</span><br><span class="line">.then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line"><span class="keyword">if</span> (wantToBreakHere) &#123;</span><br><span class="line"><span class="comment">// 抛出中断信号.</span></span><br><span class="line"><span class="keyword">throw</span> <span class="keyword">new</span> BreakSignal();Ï</span><br><span class="line">&#125;</span><br><span class="line">&#125;)</span><br><span class="line">.then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line"><span class="comment">// 需要跳过的部分.</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// 接住中断信号.</span></span><br><span class="line">.catch(BreakSignal, () =&gt; &#123; &#125;);</span><br></pre></td></tr></table></figure>
+<p>但是如果中间有其他的onrejectHandler，则需要手动传递BreakSignal信号，再次抛出，有一定的不安全性<br>Promise的then方法接收两个参数：<br>Promise.prototype.then(onFulfilled, onRejected)<br>若onFulfilled或onRejected是一个函数，当函数返回一个新Promise对象时，原Promise对象的状态将跟新对象保持一致<br>因此，当新对象保持“pending”状态时，原Promise链将会中止执行。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Promise</span>.resolve()</span><br><span class="line">.then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'[onFulfilled_1]'</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">()</span>=&gt;</span>&#123;&#125;); <span class="comment">// 返回“pending”状态的Promise对象</span></span><br><span class="line">&#125;)</span><br><span class="line">.then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;                   <span class="comment">// 后续的函数不会被调用</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'[onFulfilled_2]'</span>);</span><br><span class="line">&#125;)</span><br><span class="line">.catch(<span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'[catch]'</span>, err);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// =&gt; [onFulfilled_1]</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="第二部分：上下游交互问题"><a href="#第二部分：上下游交互问题" class="headerlink" title="第二部分：上下游交互问题"></a>第二部分：上下游交互问题</h1><h2 id="什么是跨域问题，出现跨域问题的话如何解决"><a href="#什么是跨域问题，出现跨域问题的话如何解决" class="headerlink" title="什么是跨域问题，出现跨域问题的话如何解决?"></a>什么是跨域问题，出现跨域问题的话如何解决?</h2><p>跨域问题是因为同源政策而产生的，为了安全而做的，同源政策包括三个相同<br>1、 协议相同，即都为http://<br>2、 域名相同，即都为<a href="http://www.baidu.com" target="_blank" rel="noopener">www.baidu.com</a><br>3、 端口相同，即都为80端口（可以省略）<br>如果没有同源政策，其他就可以读取A网站的Cookies，所以同源政策了三种操作<br>1、 Cookie，LocalStorage和IndexDB无法读取<br>2、 DOM无法获得<br>3、 Ajax请求不能发送<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">那么我们主要要解决的就是js中的发起ajax请求到服务器如何避免发生跨域请求不到的问题</span><br></pre></td></tr></table></figure></p>
+<h3 id="JSONP，是服务器与客户端跨源通信的常用方法，老式浏览器也全部支持，"><a href="#JSONP，是服务器与客户端跨源通信的常用方法，老式浏览器也全部支持，" class="headerlink" title="JSONP，是服务器与客户端跨源通信的常用方法，老式浏览器也全部支持，"></a>JSONP，是服务器与客户端跨源通信的常用方法，老式浏览器也全部支持，</h3><p>拥有src这个属性的，都是可以跨域的，如script，img，iframe，把远程服务器上的数据装进js格式的文件里<br>它的基本思想：网页通过添加一个Script元素，向服务器请求JSON数据，这种做法不受同源政策的限制，然后将数据放在一个指定名字的回调函数里传回来<br>由于<code>&lt;script&gt;</code>元素请求的脚本，直接作为代码运行。这时，只要浏览器定义了foo函数，该函数就会立即调用。作为参数的JSON数据被视为JavaScript对象，而不是字符串，因此避免了使用JSON.parse的步骤。</p>
+<h3 id="jquery的jsonp插件"><a href="#jquery的jsonp插件" class="headerlink" title="jquery的jsonp插件"></a>jquery的jsonp插件</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascipt"</span> <span class="attr">src</span>=<span class="string">"js/jquery.jsonp.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">$.jsonp(&#123;</span><br><span class="line">    url:"http://localhost:8080/scringboot_demo/user/getUserList",</span><br><span class="line">    callbackParameter: "callback",</span><br><span class="line">    callback: "callback_success",</span><br><span class="line">    success: function(data)&#123;</span><br><span class="line">        if(data.status == 200)&#123;</span><br><span class="line">            ...</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    error: function(xOptions, textStatus) &#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>然后服务器这边的操作是<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取页面传过来的参数</span></span><br><span class="line">String callback = request.getParameter(<span class="string">"callback"</span>);</span><br><span class="line">...</span><br><span class="line"><span class="comment">// 返回json格式的数据</span></span><br><span class="line">out.write(callback + <span class="string">"("</span> + data + <span class="string">")"</span>);</span><br></pre></td></tr></table></figure></p>
+<h3 id="CORS，前端代码和未处理跨域前一样，即普通的ajax请求，但服务器代码添加了一段解决跨域的代码"><a href="#CORS，前端代码和未处理跨域前一样，即普通的ajax请求，但服务器代码添加了一段解决跨域的代码" class="headerlink" title="CORS，前端代码和未处理跨域前一样，即普通的ajax请求，但服务器代码添加了一段解决跨域的代码"></a>CORS，前端代码和未处理跨域前一样，即普通的ajax请求，但服务器代码添加了一段解决跨域的代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 设置：Access-Control-Allow-Origin头，处理Session问题</span></span><br><span class="line">response.setHeader(<span class="string">"Access-Control-Allow-Origin"</span>, request.getHeader(<span class="string">"Origin"</span>));</span><br><span class="line">response.setHeader(<span class="string">"Access-Control-Allow-Credentials"</span>, <span class="string">"true"</span>);</span><br><span class="line">response.setHeader(<span class="string">"P3P"</span>, <span class="string">"CP=CAO PSA OUR"</span>);</span><br><span class="line"><span class="keyword">if</span> (request.getHeader(<span class="string">"Access-Control-Request-Method"</span>) != <span class="keyword">null</span> &amp;&amp; <span class="string">"OPTIONS"</span>.equals(request.getMethod())) &#123;</span><br><span class="line">    response.addHeader(<span class="string">"Access-Control-Allow-Methods"</span>, <span class="string">"POST,GET,TRACE,OPTIONS"</span>);</span><br><span class="line">    response.addHeader(<span class="string">"Access-Control-Allow-Headers"</span>, <span class="string">"Content-Type,Origin,Accept"</span>);</span><br><span class="line">    response.addHeader(<span class="string">"Access-Control-Max-Age"</span>, <span class="string">"120"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>（延伸：java中可以以配置拦截器的方法，而Node.js中是app.use中可以加，类似中间件）</p>
+<ul>
+<li>nginx反向代理</li>
+</ul>
+<h1 id="第三部分：实战问题"><a href="#第三部分：实战问题" class="headerlink" title="第三部分：实战问题"></a>第三部分：实战问题</h1><h2 id="react框架的生命周期函数有哪些"><a href="#react框架的生命周期函数有哪些" class="headerlink" title="react框架的生命周期函数有哪些"></a>react框架的生命周期函数有哪些</h2><h2 id="网站性能优化"><a href="#网站性能优化" class="headerlink" title="网站性能优化"></a>网站性能优化</h2>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/面试/" rel="tag"># 面试</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/14/reduxSource/" rel="next" title="redux && react-redux源码解析">
+                <i class="fa fa-chevron-left"></i> redux && react-redux源码解析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Lifeng Wang">
+            
+              <p class="site-author-name" itemprop="name">Lifeng Wang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">18</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#第一部分：JavaScript基础知识"><span class="nav-number">1.</span> <span class="nav-text">第一部分：JavaScript基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#JavaScript有哪几种数据类型"><span class="nav-number">1.1.</span> <span class="nav-text">JavaScript有哪几种数据类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何判断一个对象是不是Array？"><span class="nav-number">1.2.</span> <span class="nav-text">如何判断一个对象是不是Array？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#call-和apply-有什么区别？"><span class="nav-number">1.3.</span> <span class="nav-text">call()和apply()有什么区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何实现一个闭包，闭包的作用有哪些"><span class="nav-number">1.4.</span> <span class="nav-text">如何实现一个闭包，闭包的作用有哪些</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#从浏览器的url中输入链接地址之后，到页面渲染出来，一共经历了那些步骤"><span class="nav-number">1.5.</span> <span class="nav-text">从浏览器的url中输入链接地址之后，到页面渲染出来，一共经历了那些步骤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#手写bind函数"><span class="nav-number">1.6.</span> <span class="nav-text">手写bind函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件委托是怎么回事，写一个简单的实现"><span class="nav-number">1.7.</span> <span class="nav-text">事件委托是怎么回事，写一个简单的实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#你对Promise怎么看，如何手动实现Promise的功能"><span class="nav-number">1.8.</span> <span class="nav-text">你对Promise怎么看，如何手动实现Promise的功能</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第二部分：ES6问题"><span class="nav-number">2.</span> <span class="nav-text">第二部分：ES6问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#变量提升"><span class="nav-number">2.1.</span> <span class="nav-text">变量提升</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Promise和Generator和Async-Await"><span class="nav-number">2.2.</span> <span class="nav-text">Promise和Generator和Async/Await</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Promise实现请求超时处理"><span class="nav-number">2.2.1.</span> <span class="nav-text">Promise实现请求超时处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Promise实现中断或者取消"><span class="nav-number">2.2.2.</span> <span class="nav-text">Promise实现中断或者取消</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第二部分：上下游交互问题"><span class="nav-number">3.</span> <span class="nav-text">第二部分：上下游交互问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是跨域问题，出现跨域问题的话如何解决"><span class="nav-number">3.1.</span> <span class="nav-text">什么是跨域问题，出现跨域问题的话如何解决?</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#JSONP，是服务器与客户端跨源通信的常用方法，老式浏览器也全部支持，"><span class="nav-number">3.1.1.</span> <span class="nav-text">JSONP，是服务器与客户端跨源通信的常用方法，老式浏览器也全部支持，</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jquery的jsonp插件"><span class="nav-number">3.1.2.</span> <span class="nav-text">jquery的jsonp插件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CORS，前端代码和未处理跨域前一样，即普通的ajax请求，但服务器代码添加了一段解决跨域的代码"><span class="nav-number">3.1.3.</span> <span class="nav-text">CORS，前端代码和未处理跨域前一样，即普通的ajax请求，但服务器代码添加了一段解决跨域的代码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第三部分：实战问题"><span class="nav-number">4.</span> <span class="nav-text">第三部分：实战问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#react框架的生命周期函数有哪些"><span class="nav-number">4.1.</span> <span class="nav-text">react框架的生命周期函数有哪些</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网站性能优化"><span class="nav-number">4.2.</span> <span class="nav-text">网站性能优化</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lifeng Wang</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+      
+  
+  <script type="text/javascript" color="0,0,255" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.6.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.6.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.6.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.6.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.6.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.6.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.6.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

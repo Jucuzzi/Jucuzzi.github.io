@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.6.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.6.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.6.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.6.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="我们知道react组件传递是单向的，如果组件关系太远，或者没有关系，我们就会很麻烦，redux就是解决这个问题，他将数据存储到仓库，通过reducer派发action动作，来substrict Rudux的组成有五部分：  createStore 创建仓库，接受reducer作为参数 bindActionCreator 绑定store.dispatch和action 的关系 combineRedu">
+<meta name="keywords" content="React,Redux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="redux &amp;&amp; react-redux源码解析">
+<meta property="og:url" content="http://yoursite.com/2018/12/14/reduxSource/index.html">
+<meta property="og:site_name" content="王力丰的全栈小屋">
+<meta property="og:description" content="我们知道react组件传递是单向的，如果组件关系太远，或者没有关系，我们就会很麻烦，redux就是解决这个问题，他将数据存储到仓库，通过reducer派发action动作，来substrict Rudux的组成有五部分：  createStore 创建仓库，接受reducer作为参数 bindActionCreator 绑定store.dispatch和action 的关系 combineRedu">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/images/reduxSource/1.png">
+<meta property="og:updated_time" content="2018-12-14T10:27:45.210Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="redux &amp;&amp; react-redux源码解析">
+<meta name="twitter:description" content="我们知道react组件传递是单向的，如果组件关系太远，或者没有关系，我们就会很麻烦，redux就是解决这个问题，他将数据存储到仓库，通过reducer派发action动作，来substrict Rudux的组成有五部分：  createStore 创建仓库，接受reducer作为参数 bindActionCreator 绑定store.dispatch和action 的关系 combineRedu">
+<meta name="twitter:image" content="http://yoursite.com/images/reduxSource/1.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/12/14/reduxSource/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>redux && react-redux源码解析 | 王力丰的全栈小屋</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王力丰的全栈小屋</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">这，这就触及到我的知识盲区了</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/14/reduxSource/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lifeng Wang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王力丰的全栈小屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">redux && react-redux源码解析
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-14 17:42:52 / 修改时间：18:27:45" itemprop="dateCreated datePublished" datetime="2018-12-14T17:42:52+08:00">2018-12-14</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/前端/" itemprop="url" rel="index"><span itemprop="name">前端</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>我们知道react组件传递是单向的，如果组件关系太远，或者没有关系，我们就会很麻烦，redux就是解决这个问题，他将数据存储到仓库，通过reducer派发action动作，来substrict</p>
+<p>Rudux的组成有五部分：</p>
+<ul>
+<li>createStore 创建仓库，接受reducer作为参数</li>
+<li>bindActionCreator 绑定store.dispatch和action 的关系</li>
+<li>combineReducers 合并多个reducers</li>
+<li>applyMiddleware 洋葱模型的中间件,介于dispatch和action之间，重写dispatch</li>
+<li>compose 整合多个中间件</li>
+</ul>
+<h2 id="createStore"><a href="#createStore" class="headerlink" title="createStore"></a>createStore</h2><p>主要导出<code>getState</code>，<code>dispatch</code> ，<code>subscribe</code>三个方法，分别是获取仓库，派发动作和订阅事件，生成store，他包含所有数据，拿数据通过<code>getState</code>获取，一个<code>State</code>对应一个<code>View</code>。只要<code>State</code>相同，<code>View</code>就相同</p>
+<p>其内部保存啦一颗状态树，这个状态树是任意类型的，当获取状态树的时候后会复制一份状态树吗，并导出，防止对状态树的恶意更改。</p>
+<p>因此，只能通过派发<code>dispatch</code>更改状态，<code>dispatch</code>会调用<code>reducer</code>处理<code>action</code> 动作，<code>reducer</code>是个函数，他有<code>state</code>和<code>action</code>两个参数，作用是将老得<code>state</code>经过<code>action</code>处理后返回新的<code>state</code>,<code>action</code>是个有<code>type</code>属性的对象，来标示他对哪个状态进行改变</p>
+<p>于此同时，当状态发生改变会触发<code>subscribe</code>订阅的监听事件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">createStore</span>(<span class="params">reducer,initState,enchancer</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (enchancer) &#123;</span><br><span class="line">        <span class="keyword">return</span> enchancer(createStore)(reducer,initState);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//仓库内部保存了一颗状态树。可以是任意类型</span></span><br><span class="line">    <span class="keyword">let</span> state;</span><br><span class="line">    <span class="keyword">let</span> listeners=[];</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">getState</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">JSON</span>.parse(<span class="built_in">JSON</span>.stringify(state));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//组件可以派发动作给仓库</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">dispatch</span>(<span class="params">action</span>) </span>&#123;</span><br><span class="line">        <span class="comment">//调用reducer进行处理，获取老的state,计算出新的state</span></span><br><span class="line">        state=reducer(state,action);</span><br><span class="line">        <span class="comment">//通知其他的组件</span></span><br><span class="line">        listeners.forEach(<span class="function"><span class="params">l</span>=&gt;</span>l());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//如果说其他的组件需要订阅状态变化时间的话，</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">subscribe</span>(<span class="params">listener</span>) </span>&#123;</span><br><span class="line">        listeners.push(listener);</span><br><span class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">            listeners = listeners.filter(<span class="function"><span class="params">item</span>=&gt;</span>item!==listener);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    dispatch(&#123;<span class="attr">type</span>:<span class="string">'@@INIT'</span>&#125;);</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        getState,</span><br><span class="line">        dispatch,</span><br><span class="line">        subscribe</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="bindActionCreator"><a href="#bindActionCreator" class="headerlink" title="bindActionCreator"></a>bindActionCreator</h2><p>虽然我们用<code>dispatch</code>派发事件，派发动作类型大概是一个有<code>type</code>属性的对象，我们将这个对象的方法封一个<code>actions</code>的文件夹，在<code>dispach</code>的时候直接调用<code>action</code>,列入将<code>dispatch(()=&gt;{type:add})</code>，此时我们需要建立<code>dispatch</code>和<code>actions</code>的关系</p>
+<p><code>&lt;button onClick={()=&gt;bindActions.add1(1)}&gt;+&lt;/button&gt;</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> (<span class="params">actions,dispatch</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//actions = &#123;add()&#123;return &#123;type:ADD&#125;&#125;,minus()&#123;return &#123;type:'MINUS'&#125;&#125;&#125;</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Object</span>.keys(actions).reduce(</span><br><span class="line">        (memo,key) =&gt; &#123;</span><br><span class="line">            memo[key]=<span class="function">(<span class="params">...args</span>) =&gt;</span> dispatch(actions[key](...args));</span><br><span class="line">            <span class="keyword">return</span> memo;</span><br><span class="line">        &#125;,&#123;&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="combineReducers"><a href="#combineReducers" class="headerlink" title="combineReducers"></a>combineReducers</h2><p>返回一个函数，这个函数代表合并后的<code>reducer</code>,那么他一定有两个参数，最终返回新状态，我们迭代<code>reducers</code>每一个属性<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//因为redux应用只能有一个仓库，只能有一个reducer</span></span><br><span class="line"><span class="comment">//把多个reducer函数合并成一个</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> (<span class="params">reducers</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//返回的这个函数就是合并后的reducer</span></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">state=&#123;&#125;,action</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">let</span> newState=&#123;&#125;;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">in</span> reducers) &#123;</span><br><span class="line">            <span class="comment">// key=counter1</span></span><br><span class="line">            <span class="comment">//reducers[counter1]=counter那个reducer </span></span><br><span class="line">            <span class="comment">//state合并后的状态树 </span></span><br><span class="line">            <span class="comment">//if (key===action.name) &#123;</span></span><br><span class="line">                newState[key]=reducers[key](state[key],action);<span class="comment">//state[key]老状态</span></span><br><span class="line">            <span class="comment">//&#125;</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> newState;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>我们可以发现，每个组件都需要获取仓库，管理订阅，向仓库派发事件，这样很融于，我们需要复用这样的逻辑，可以用高阶组件，或者将函数作为子组件，我们此时用这个库</p>
+<h2 id="applyMiddleware"><a href="#applyMiddleware" class="headerlink" title="applyMiddleware"></a>applyMiddleware</h2><p>中间件大概是redux里面比较难理解的部分啦<br><img src="/images/reduxSource/1.png" alt="avatar"><br>他的原理如上图，<code>state</code>和<code>dispatch</code>构成啦我们的仓库，我们可以向仓库发送<code>action</code>通过<code>reducer</code>改变状态，状态改变之后可以修改视图，用户可以通过鼠标点击视图，视图派发<code>action</code>,改变状态，形成循环，，有时候我们需要发布异步操作，想在派发前，派发后做一些额外动作，此时我们就需要插入中间件，我们的方法就是得到<code>dispatch</code>方法，重写<code>dispacth</code>,这里用到啦我们说的源码解析</p>
+<p>一个redux中间件大概就是如下，之后可能会将<code>redux</code>和<code>express</code>和<code>koa</code>中间件做个对比给大家总结一下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">logger</span>(<span class="params">store</span>)</span>&#123;<span class="comment">//getState ,新的dispatch</span></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">next</span>)</span>&#123;<span class="comment">//store.dispatch旧的</span></span><br><span class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">action</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">'old'</span>);</span><br><span class="line">            next()</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">'new'</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//解析过程</span></span><br><span class="line"><span class="keyword">let</span> logger = <span class="function"><span class="params">store</span> =&gt;</span> next =&gt;<span class="function"><span class="params">action</span> =&gt;</span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//以下是处理过程</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">applyMiddleware</span>(<span class="params">middleware</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">creacteStore</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">reducer</span>)</span>&#123;</span><br><span class="line">            <span class="keyword">let</span> store = creacteStore(reducer);</span><br><span class="line">            <span class="keyword">let</span> middleware2 = middleware(store)</span><br><span class="line">            <span class="keyword">let</span> dispatch = middleware2(store.dispatch)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;   </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> store = applyMiddleware(logger)(creacteStore)(reducer)</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> compose <span class="keyword">from</span> <span class="string">'./compose'</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> (<span class="params">...middlewares</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">createStore</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">reducers</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">let</span> store=createStore(reducers);<span class="comment">//这就是原始的仓库 dispatch 就是原始的dispatch</span></span><br><span class="line">            <span class="keyword">let</span> dispatch;<span class="comment">//dispatch方法指向新的dispatch方法</span></span><br><span class="line">            <span class="keyword">let</span> middlewares2 = middlewares.map(<span class="function"><span class="params">middleware</span>=&gt;</span>middleware(&#123;</span><br><span class="line">                getState: store.getState,</span><br><span class="line">                dispatch:<span class="function"><span class="params">action</span>=&gt;</span>dispatch(action)</span><br><span class="line">            &#125;));<span class="comment">//调用第一层去掉</span></span><br><span class="line">            dispatch=compose(...middlewares2)(store.dispatch);<span class="comment">//再调用第二次把第二层去掉</span></span><br><span class="line">            <span class="keyword">return</span> &#123;</span><br><span class="line">                ...store,</span><br><span class="line">                dispatch</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="compose整合中间件"><a href="#compose整合中间件" class="headerlink" title="compose整合中间件"></a>compose整合中间件</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add1</span>(<span class="params">str</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>+str;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add2</span>(<span class="params">str</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">2</span>+str;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sum</span>(<span class="params">a,b</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a+b;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//let ret=add1(add2(add3('zdl')));</span></span><br><span class="line"><span class="comment">//console.log(ret);</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">compose1</span>(<span class="params">...fns</span>) </span>&#123;<span class="comment">//[add1,add2,add3]</span></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">...args</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">let</span> last=fns.pop();</span><br><span class="line">        <span class="keyword">return</span> fns.reduceRight(<span class="function">(<span class="params">val,fn</span>)=&gt;</span>fn(val),last(...args));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span>(<span class="params">...fns</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> fns.reduce(<span class="function">(<span class="params">a,b</span>)=&gt;</span><span class="function">(<span class="params">...args</span>)=&gt;</span>a(b(...args)));</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* 第一次的时候 a =add1 b=add3 let ret = add1(add2(...args))</span></span><br><span class="line"><span class="comment">* 第二次的时候 (...args)=&gt;add1(add2(sum(...args)))</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">let</span> ret=compose(add1,add2,sum)(<span class="string">'a'</span>,<span class="string">'b'</span>);</span><br><span class="line"><span class="built_in">console</span>.log(ret);<span class="comment">//123zdl</span></span><br></pre></td></tr></table></figure>
+<h2 id="react-redux"><a href="#react-redux" class="headerlink" title="react-redux"></a>react-redux</h2><p>有四个文件</p>
+<ul>
+<li>connect 将store和dispatch分别映射成props属性对象，返回组件</li>
+<li>context 上下文 导出Provider,,和 consumer</li>
+<li>Provider 一个接受store的组件，通过context api传递给所有子组件,优点类似于路由啦</li>
+<li>index</li>
+</ul>
+<p>我们一个一个讲一下这些文件</p>
+<h3 id="index"><a href="#index" class="headerlink" title="index"></a>index</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Provider <span class="keyword">from</span> <span class="string">'./Provider'</span>;</span><br><span class="line"><span class="keyword">import</span> connect <span class="keyword">from</span> <span class="string">'./connect'</span>;</span><br><span class="line"><span class="keyword">export</span> &#123;</span><br><span class="line">    Provider,</span><br><span class="line">    connect</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Provider"><a href="#Provider" class="headerlink" title="Provider"></a>Provider</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* 是一个组件，用来接受store,再经过它的手通过context api传递给所有的子组件</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">import</span> React,&#123;Component&#125; <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"><span class="keyword">import</span> &#123;Provider <span class="keyword">as</span> StoreProvider&#125; <span class="keyword">from</span> <span class="string">'./context'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> PropTypes <span class="keyword">from</span> <span class="string">'prop-types'</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">Provider</span> <span class="keyword">extends</span> <span class="title">Component</span></span>&#123;</span><br><span class="line">    <span class="comment">//规定如果有人想使用这个组件，必须提供一个redux仓库属性</span></span><br><span class="line">    <span class="keyword">static</span> propTypes=&#123;</span><br><span class="line">        store:PropTypes.object.isRequired</span><br><span class="line">    &#125;</span><br><span class="line">    render() &#123;</span><br><span class="line">        <span class="keyword">let</span> value=&#123;<span class="attr">store</span>:<span class="keyword">this</span>.props.store&#125;;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">            &lt;StoreProvider value=&#123;value&#125;&gt;</span><br><span class="line">            &#123;<span class="keyword">this</span>.props.children&#125;</span><br><span class="line">            &lt;<span class="regexp">/StoreProvider&gt;</span></span><br><span class="line"><span class="regexp">        )</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<h3 id="context"><a href="#context" class="headerlink" title="context"></a>context</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"><span class="keyword">let</span> &#123;Provider,Consumer&#125;=React.createContext();</span><br><span class="line"><span class="keyword">export</span> &#123;Provider,Consumer&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="connect"><a href="#connect" class="headerlink" title="connect"></a>connect</h3><p>这是个高阶函数，分别传入两个方法<code>mapStateToProps,mapDispatchToProps</code>,将<code>store</code>和<code>dispatch</code>分别映射成<code>props</code>属性对象,这样在页面就不需要饮用仓库，也不需要绑定<code>action</code>和<code>dispatch</code>,也不需要订阅状态，返回组件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;Consumer&#125; <span class="keyword">from</span> <span class="string">'./context'</span>;</span><br><span class="line"><span class="keyword">import</span> React,&#123;Component&#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;bindActionCreators&#125; <span class="keyword">from</span> <span class="string">'../redux'</span>;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* connect实现的是仓库和组件的连接</span></span><br><span class="line"><span class="comment">* mapStateToProps 是一个函数 把状态映射为一个属性对象</span></span><br><span class="line"><span class="comment">* mapDispatchToProps 也是一个函数 把dispatch方法映射为一个属性对象</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> (<span class="params">mapStateToProps,mapDispatchToProps</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">Com</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//在这个组件里实现仓库和组件的连接</span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Proxy</span> <span class="keyword">extends</span> <span class="title">Component</span></span>&#123;</span><br><span class="line">        state=mapStateToProps(<span class="keyword">this</span>.props.store.getState())</span><br><span class="line">        componentDidMount() &#123;</span><br><span class="line">            <span class="keyword">this</span>.unsubscribe = <span class="keyword">this</span>.props.store.subscribe(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">                <span class="keyword">this</span>.setState(mapStateToProps(<span class="keyword">this</span>.props.store.getState()));</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">        componentWillUnmount = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">this</span>.unsubscribe();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        render() &#123;</span><br><span class="line">            <span class="keyword">let</span> actions=&#123;&#125;;</span><br><span class="line">            <span class="comment">//如果说mapDispatchToProps是一个函数，执行后得到属性对象</span></span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">typeof</span> mapDispatchToProps === <span class="string">'function'</span>) &#123;</span><br><span class="line">            actions = mapDispatchToProps(<span class="keyword">this</span>.props.store.dispatch);</span><br><span class="line">            <span class="comment">//如果说mapDispatchToProps是一个对象的话，我们需要手工绑定</span></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            actions=bindActionCreators(mapDispatchToProps,<span class="keyword">this</span>.props.store.dispatch);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">Com</span> &#123;<span class="attr">...this.state</span>&#125; &#123;<span class="attr">...actions</span>&#125;/&gt;</span></span></span><br><span class="line"><span class="xml">            &#125;</span></span><br><span class="line"><span class="xml">        &#125;</span></span><br><span class="line"><span class="xml"></span></span><br><span class="line"><span class="xml">        return () =&gt; (</span></span><br><span class="line">            &lt;Consumer&gt;</span><br><span class="line">            &#123;</span><br><span class="line">                value =&gt; &lt;Proxy store=&#123;value.store&#125;/&gt;</span><br><span class="line">            &#125;</span><br><span class="line">            &lt;/Consumer&gt;</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/React/" rel="tag"># React</a>
+          
+            <a href="/tags/Redux/" rel="tag"># Redux</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/13/cssCenter/" rel="next" title="浅谈css中一个元素如何在其父元素居中显示">
+                <i class="fa fa-chevron-left"></i> 浅谈css中一个元素如何在其父元素居中显示
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/24/frontEndQuestions/" rel="prev" title="前端面试，看我这一篇就够了">
+                前端面试，看我这一篇就够了 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Lifeng Wang">
+            
+              <p class="site-author-name" itemprop="name">Lifeng Wang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">18</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#createStore"><span class="nav-number">1.</span> <span class="nav-text">createStore</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bindActionCreator"><span class="nav-number">2.</span> <span class="nav-text">bindActionCreator</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#combineReducers"><span class="nav-number">3.</span> <span class="nav-text">combineReducers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#applyMiddleware"><span class="nav-number">4.</span> <span class="nav-text">applyMiddleware</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#compose整合中间件"><span class="nav-number">5.</span> <span class="nav-text">compose整合中间件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#react-redux"><span class="nav-number">6.</span> <span class="nav-text">react-redux</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#index"><span class="nav-number">6.1.</span> <span class="nav-text">index</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Provider"><span class="nav-number">6.2.</span> <span class="nav-text">Provider</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#context"><span class="nav-number">6.3.</span> <span class="nav-text">context</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#connect"><span class="nav-number">6.4.</span> <span class="nav-text">connect</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lifeng Wang</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+      
+  
+  <script type="text/javascript" color="0,0,255" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.6.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.6.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.6.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.6.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.6.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.6.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.6.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
